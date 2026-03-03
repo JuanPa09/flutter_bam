@@ -20,13 +20,13 @@ class Env {
     String fileName;
     switch (environment) {
       case Environment.development:
-        fileName = 'assets/env/dev.json';
+        fileName = 'lib/env/dev.json';
         break;
       case Environment.staging:
-        fileName = 'assets/env/staging.json';
+        fileName = 'lib/env/staging.json';
         break;
       case Environment.production:
-        fileName = 'assets/env/prod.json';
+        fileName = 'lib/env/prod.json';
         break;
     }
     _variables = await load(fileName);

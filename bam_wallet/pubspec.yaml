@@ -26,4 +26,4 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/env/
+    - lib/env/
