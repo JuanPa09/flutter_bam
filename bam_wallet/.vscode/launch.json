@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "bam_wallet DEV",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dev.dart",
+        },
+        {
+            "name": "bam_wallet DEV (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dev.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "bam_wallet DEV (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dev.dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "Flutter Web DEV (Chrome)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dev.dart",
+            "flutterMode": "debug",
+            "deviceId": "chrome"
+        },
+        {
+            "name": "Flutter Web DEV (Edge)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dev.dart",
+            "flutterMode": "debug",
+            "deviceId": "edge"
+        },
+    ]
+}

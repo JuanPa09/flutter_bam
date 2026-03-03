@@ -1,0 +1,20 @@
+{
+    "appTitle": "Bam Wallet",
+    "bodyText": "You have pushed the button this many times:",
+    "login_instructions": "Sign in with your email and password",
+    "loginScreenName": "Login",
+    "label_email": "Email",
+    "label_name": "Name",
+    "enter_your_email": "Enter your email",
+    "label_password": "Password",
+    "enter_your_password": "Enter your password",
+    "email_required": "Email is required",
+    "invalid_mail": "Please enter a valid email",
+    "password_required": "Password is required",
+    "invalid_password": "Password must be at least 6 characters",
+    "btn_login": "Login",
+    "btn_logout": "Logout",
+    "greeting": "Welcome!",
+    "error_401": "Invalid email or password"
+
+}

@@ -1,0 +1,19 @@
+{
+    "appTitle": "Cartera BAM",
+    "bodyText": "Tienes que presionar el boton para contar:",
+    "login_instructions": "Inicie sesión con su correo y contraseña",
+    "loginScreenName": "Inicio de Sesión",
+    "label_email": "Correo electrónico",
+    "label_name": "Nombre",
+    "enter_your_email": "Ingrese su correo electrónico",
+    "label_password": "Contraseña",
+    "enter_your_password": "Ingrese su contraseña",
+    "email_required": "Debe ingresar correo",
+    "invalid_mail": "El correo es inválido",
+    "password_required": "Debe ingresar contraseña",
+    "invalid_password": "La contraseña debe tener al menos 6 caracteres",
+    "btn_login": "Entrar",
+    "btn_logout": "Salir",
+    "greeting": "¡Bienvenido!",
+    "error_401": "Credenciales invalidas"
+}

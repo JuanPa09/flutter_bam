@@ -1,0 +1,17 @@
+{
+    "env": {
+        "apiUrl": "https://api.dev.example.com",
+        "featureFlag": true
+    },
+    "logging": {
+        "level": "debug",
+        "file": "dev.log"
+    },
+    "database": {
+        "host": "localhost",
+        "port": 5432,
+        "username": "dev_user",
+        "password": "dev_password",
+        "name": "dev_db"
+    }
+}

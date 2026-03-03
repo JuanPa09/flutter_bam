@@ -1,0 +1,17 @@
+{
+    "env": {
+        "apiUrl": "https://api.prod.example.com",
+        "featureFlag": true
+    },
+    "logging": {
+        "level": "debug",
+        "file": "prod.log"
+    },
+    "database": {
+        "host": "servidorprod.com",
+        "port": 5432,
+        "username": "prod_user",
+        "password": "prod_password",
+        "name": "prod_db"
+    }
+}
