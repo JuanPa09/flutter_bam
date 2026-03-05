@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 void runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.initialize();
-  await ServiceLocator().setup();
+  await ServiceLocator().setup('dev'); //definir si se usa mock o no
   runApp(const MyApp());
 }
 

@@ -1,25 +1,25 @@
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:bam_wallet/features/login/data/models/user_model.dart';
 
 class LoginRemoteDataSource {
-  final http.Client httpClient;
+  final Dio dioClient;
 
-  LoginRemoteDataSource({required this.httpClient});
+  LoginRemoteDataSource({required this.dioClient});
 
   Future<UserModel> login(String email, String password) async {
     try {
-      final response = await httpClient
+      final response = await dioClient
           .post(
-            Uri.parse('https://api.example.com/login'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'email': email, 'password': password}),
+            'https://api.example.com/login',
+            options: Options(headers: {'Content-Type': 'application/json'}),
+            data: jsonEncode({'email': email, 'password': password}),
           )
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
         return UserModel.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>,
+          jsonDecode(response.data) as Map<String, dynamic>,
         );
       } else if (response.statusCode == 401) {
         throw Exception('401');
