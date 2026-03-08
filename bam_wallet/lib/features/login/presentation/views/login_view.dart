@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:bam_wallet/features/login/presentation/providers/login_provider.dart';
@@ -73,7 +74,12 @@ class _LoginViewState extends State<LoginView> {
       body: Consumer<LoginProvider>(
         builder: (context, loginProvider, _) {
           if (loginProvider.isLoggedIn) {
-            return _buildLoggedInView(loginProvider);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) context.go('/home');
+            });
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return SingleChildScrollView(
@@ -151,40 +157,6 @@ class _LoginViewState extends State<LoginView> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildLoggedInView(LoginProvider loginProvider) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.check_circle, size: 80, color: Colors.green),
-          const SizedBox(height: 24),
-          Text(
-            AppLocalizations.of(context)!.greeting,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 12),
-          if (loginProvider.user != null) ...[
-            Text(
-              '${AppLocalizations.of(context)!.label_name}: ${loginProvider.user!.name}',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${AppLocalizations.of(context)!.label_email}: ${loginProvider.user!.email}',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ],
-          const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: () => loginProvider.logout(),
-            icon: const Icon(Icons.logout),
-            label: Text(AppLocalizations.of(context)!.btn_logout),
-          ),
-        ],
       ),
     );
   }

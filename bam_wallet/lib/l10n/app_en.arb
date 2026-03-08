@@ -15,6 +15,44 @@
     "btn_login": "Login",
     "btn_logout": "Logout",
     "greeting": "Welcome!",
-    "error_401": "Invalid email or password"
-
+    "error_401": "Invalid email or password",
+    "home_good_morning": "Good morning",
+    "home_total_balance": "Total balance",
+    "home_my_accounts": "My accounts",
+    "home_transfer": "Transfer",
+    "home_view_history": "View history",
+    "transfer_title": "Make Transfer",
+    "transfer_source_account": "Source account",
+    "transfer_destination_account": "Destination account number",
+    "transfer_destination_hint": "E.g. 1111222233",
+    "transfer_amount": "Amount",
+    "transfer_do_transfer": "Make transfer",
+    "transfer_history_title": "Transfer history",
+    "transfer_sent_to": "Sent to {holder}",
+    "@transfer_sent_to": {
+        "placeholders": {
+            "holder": {"type": "String"}
+        }
+    },
+    "transfer_received_from": "Received from {holder}",
+    "@transfer_received_from": {
+        "placeholders": {
+            "holder": {"type": "String"}
+        }
+    },
+    "nav_home": "Home",
+    "nav_settings": "Settings",
+    "settings_title": "Settings",
+    "settings_section_account": "Account",
+    "settings_section_security": "Security",
+    "settings_section_preferences": "Preferences",
+    "settings_account_update_info": "Update information",
+    "settings_security_change_password": "Change password",
+    "settings_security_biometric": "Biometric login",
+    "settings_security_two_factor": "Two-factor authentication",
+    "settings_preferences_notifications": "Notifications",
+    "settings_preferences_privacy_policy": "Privacy policy",
+    "settings_preferences_support": "Support center",
+    "settings_version": "Version",
+    "settings_coming_soon": "Coming soon"
 }

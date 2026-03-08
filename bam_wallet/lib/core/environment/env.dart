@@ -14,7 +14,7 @@ class Env {
   static Map<String, dynamic> _variables = {};
   static dynamic get(String key) => _variables[key];
 
-  static late final Environment environment;
+  static Environment environment = Environment.development;
 
   static Future<void> initialize() async {
     String fileName;

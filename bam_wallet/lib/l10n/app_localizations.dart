@@ -196,6 +196,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid email or password'**
   String get error_401;
+
+  /// No description provided for @home_good_morning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get home_good_morning;
+
+  /// No description provided for @home_total_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Total balance'**
+  String get home_total_balance;
+
+  /// No description provided for @home_my_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'My accounts'**
+  String get home_my_accounts;
+
+  /// No description provided for @home_transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get home_transfer;
+
+  /// No description provided for @home_view_history.
+  ///
+  /// In en, this message translates to:
+  /// **'View history'**
+  String get home_view_history;
+
+  /// No description provided for @transfer_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Make Transfer'**
+  String get transfer_title;
+
+  /// No description provided for @transfer_source_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Source account'**
+  String get transfer_source_account;
+
+  /// No description provided for @transfer_destination_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination account number'**
+  String get transfer_destination_account;
+
+  /// No description provided for @transfer_destination_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. 1111222233'**
+  String get transfer_destination_hint;
+
+  /// No description provided for @transfer_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get transfer_amount;
+
+  /// No description provided for @transfer_do_transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Make transfer'**
+  String get transfer_do_transfer;
+
+  /// No description provided for @transfer_history_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer history'**
+  String get transfer_history_title;
+
+  /// No description provided for @transfer_sent_to.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent to {holder}'**
+  String transfer_sent_to(String holder);
+
+  /// No description provided for @transfer_received_from.
+  ///
+  /// In en, this message translates to:
+  /// **'Received from {holder}'**
+  String transfer_received_from(String holder);
+
+  /// No description provided for @nav_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get nav_home;
+
+  /// No description provided for @nav_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get nav_settings;
+
+  /// No description provided for @settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_title;
+
+  /// No description provided for @settings_section_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settings_section_account;
+
+  /// No description provided for @settings_section_security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get settings_section_security;
+
+  /// No description provided for @settings_section_preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settings_section_preferences;
+
+  /// No description provided for @settings_account_update_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Update information'**
+  String get settings_account_update_info;
+
+  /// No description provided for @settings_security_change_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get settings_security_change_password;
+
+  /// No description provided for @settings_security_biometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric login'**
+  String get settings_security_biometric;
+
+  /// No description provided for @settings_security_two_factor.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication'**
+  String get settings_security_two_factor;
+
+  /// No description provided for @settings_preferences_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settings_preferences_notifications;
+
+  /// No description provided for @settings_preferences_privacy_policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get settings_preferences_privacy_policy;
+
+  /// No description provided for @settings_preferences_support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support center'**
+  String get settings_preferences_support;
+
+  /// No description provided for @settings_version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settings_version;
+
+  /// No description provided for @settings_coming_soon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get settings_coming_soon;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

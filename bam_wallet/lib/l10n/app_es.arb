@@ -15,5 +15,44 @@
     "btn_login": "Entrar",
     "btn_logout": "Salir",
     "greeting": "¡Bienvenido!",
-    "error_401": "Credenciales invalidas"
+    "error_401": "Credenciales invalidas",
+    "home_good_morning": "Buenos días",
+    "home_total_balance": "Balance total",
+    "home_my_accounts": "Mis cuentas",
+    "home_transfer": "Transferir",
+    "home_view_history": "Ver historial",
+    "transfer_title": "Realizar Transferencia",
+    "transfer_source_account": "Cuenta origen",
+    "transfer_destination_account": "Número de cuenta destino",
+    "transfer_destination_hint": "Ej. 1111222233",
+    "transfer_amount": "Monto",
+    "transfer_do_transfer": "Realizar transferencia",
+    "transfer_history_title": "Historial de transferencias",
+    "transfer_sent_to": "Enviado a {holder}",
+    "@transfer_sent_to": {
+        "placeholders": {
+            "holder": {"type": "String"}
+        }
+    },
+    "transfer_received_from": "Recibido de {holder}",
+    "@transfer_received_from": {
+        "placeholders": {
+            "holder": {"type": "String"}
+        }
+    },
+    "nav_home": "Inicio",
+    "nav_settings": "Ajustes",
+    "settings_title": "Ajustes",
+    "settings_section_account": "Cuenta",
+    "settings_section_security": "Seguridad",
+    "settings_section_preferences": "Preferencias",
+    "settings_account_update_info": "Actualizar información",
+    "settings_security_change_password": "Cambiar contraseña",
+    "settings_security_biometric": "Inicio de sesión con biometría",
+    "settings_security_two_factor": "Autenticación de dos factores",
+    "settings_preferences_notifications": "Notificaciones",
+    "settings_preferences_privacy_policy": "Políticas de privacidad",
+    "settings_preferences_support": "Centro de soporte",
+    "settings_version": "Versión",
+    "settings_coming_soon": "Próximamente"
 }
