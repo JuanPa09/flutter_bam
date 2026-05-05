@@ -12,7 +12,7 @@ void main() {
 void runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.initialize();
-  await ServiceLocator().setup('mock'); //definir si se usa mock o no
+  await ServiceLocator().setup('real'); //options: mock, real
   runApp(const MyApp());
 }
 

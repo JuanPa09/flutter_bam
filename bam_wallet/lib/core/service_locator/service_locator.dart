@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:bam_wallet/core/network/dio_interceptor.dart';
 import 'package:bam_wallet/features/login/data/datasources/login_remote_datasource.dart';
 import 'package:bam_wallet/features/login/data/datasources/mock_login_datasource.dart';
 import 'package:bam_wallet/features/login/data/repositories/login_repository_impl.dart';
@@ -29,7 +30,10 @@ class ServiceLocator {
         mockDataSource: MockLoginDataSource(),
       );
     } else {
-      final loginRemoteDataSource = LoginRemoteDataSource(dioClient: dio.Dio());
+      final dioClient = dio.Dio();
+      dioClient.interceptors.add(DioInterceptor(dio: dioClient));
+
+      final loginRemoteDataSource = LoginRemoteDataSource(dioClient: dioClient);
       _loginRepository = LoginRepositoryImpl(
         remoteDataSource: loginRemoteDataSource,
       );

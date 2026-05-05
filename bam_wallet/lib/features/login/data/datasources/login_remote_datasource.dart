@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:bam_wallet/features/login/data/models/user_model.dart';
+import 'package:bam_wallet/core/api_consts.dart';
 
 class LoginRemoteDataSource {
   final Dio dioClient;
@@ -11,7 +12,7 @@ class LoginRemoteDataSource {
     try {
       final response = await dioClient
           .post(
-            'https://api.example.com/login',
+            ApiConsts.apiUrlLogin,
             options: Options(headers: {'Content-Type': 'application/json'}),
             data: jsonEncode({'email': email, 'password': password}),
           )

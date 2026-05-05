@@ -1,6 +1,6 @@
 {
     "env": {
-        "apiUrl": "https://api.dev.example.com",
+        "apiUrlLogin": "https://dummyjson.com/",
         "featureFlag": true
     },
     "logging": {
