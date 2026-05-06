@@ -1,21 +1,21 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
 import 'package:bam_wallet/features/application/features/home/data/mock/home_mock_data.dart';
 import 'package:bam_wallet/features/application/features/home/domain/models/bank_account.dart';
-import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
+import 'package:bam_wallet/features/loginV2/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   static double get _totalBalance =>
       HomeMockData.accounts.fold<double>(0, (sum, a) => sum + a.balance);
 
   @override
-  Widget build(BuildContext context) {
-    final sessionUser = context.watch<LoginProvider>().user;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionUser = ref.watch(userProvider);
     final accounts = HomeMockData.accounts;
 
     return Scaffold(
@@ -41,19 +41,24 @@ class HomeScreen extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context)!.home_my_accounts,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
                   child: _AccountCard(
                     account: accounts[index],
                     transferLabel: AppLocalizations.of(context)!.home_transfer,
-                    historyLabel: AppLocalizations.of(context)!.home_view_history,
+                    historyLabel: AppLocalizations.of(
+                      context,
+                    )!.home_view_history,
                     onTransfer: () => context.push('/transfer'),
                     onHistory: () => context.push('/transfer-history'),
                   ),
@@ -73,7 +78,11 @@ class _Header extends StatelessWidget {
   final String? photoUrl;
   final String greeting;
 
-  const _Header({required this.userName, this.photoUrl, required this.greeting});
+  const _Header({
+    required this.userName,
+    this.photoUrl,
+    required this.greeting,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +93,17 @@ class _Header extends StatelessWidget {
           CircleAvatar(
             radius: 28,
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            backgroundImage:
-                photoUrl != null && photoUrl!.isNotEmpty ? NetworkImage(photoUrl!) : null,
+            backgroundImage: photoUrl != null && photoUrl!.isNotEmpty
+                ? NetworkImage(photoUrl!)
+                : null,
             child: photoUrl == null || photoUrl!.isEmpty
                 ? Text(
-                    userName.isNotEmpty ? userName.substring(0, 1).toUpperCase() : '?',
+                    userName.isNotEmpty
+                        ? userName.substring(0, 1).toUpperCase()
+                        : '?',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
                   )
                 : null,
           ),
@@ -102,15 +114,15 @@ class _Header extends StatelessWidget {
               Text(
                 greeting,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 2),
               Text(
                 userName,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -136,15 +148,15 @@ class _BalanceTotal extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             CurrencyFormat.formatGtq(amount),
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -177,9 +189,9 @@ class _AccountCard extends StatelessWidget {
           children: [
             Text(
               account.name,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             Row(
@@ -195,9 +207,14 @@ class _AccountCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(

@@ -1,23 +1,18 @@
-class Transfer {
-  final String id;
-  final String fromAccountNumber;
-  final String toAccountNumber;
-  final String fromHolder;
-  final String toHolder;
-  final double amount;
-  final String currency;
-  final DateTime date;
-  final bool isOutgoing;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const Transfer({
-    required this.id,
-    required this.fromAccountNumber,
-    required this.toAccountNumber,
-    required this.fromHolder,
-    required this.toHolder,
-    required this.amount,
-    required this.currency,
-    required this.date,
-    required this.isOutgoing,
-  });
+part 'transfer.freezed.dart';
+
+@freezed
+class Transfer with _$Transfer {
+  const factory Transfer({
+    required String id,
+    required String fromAccountNumber,
+    required String toAccountNumber,
+    required String fromHolder,
+    required String toHolder,
+    required double amount,
+    required String currency,
+    required DateTime date,
+    required bool isOutgoing,
+  }) = _Transfer;
 }

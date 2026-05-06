@@ -4,7 +4,7 @@ import 'package:bam_wallet/core/service_locator/service_locator.dart';
 import 'package:bam_wallet/features/application/core/router/app_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runProject();
@@ -15,7 +15,7 @@ void runProject() async {
   await LocalStorage().init();
   await Env.initialize();
   await ServiceLocator().setup('real'); //options: mock, real
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ServiceLocator().loginProvider,
+    return AuthRouterListener(
       child: MaterialApp.router(
         title: 'Bam Wallet',
         localizationsDelegates: AppLocalizations.localizationsDelegates,

@@ -3,11 +3,11 @@ import 'package:bam_wallet/features/application/features/home/presentation/scree
 import 'package:bam_wallet/features/application/features/home/presentation/screens/transfer_screen.dart';
 import 'package:bam_wallet/features/application/features/settings/presentation/screens/settings_screen.dart';
 import 'package:bam_wallet/features/application/features/shell/presentation/screens/main_shell.dart';
-import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
 import 'package:bam_wallet/features/loginV2/presentation/views/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:bam_wallet/features/loginV2/presentation/providers/auth_providers.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -16,29 +16,6 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/login',
-    redirect: (context, state) {
-      final loginProvider = context.read<LoginProvider>();
-      final isInitialized = loginProvider.isInitialized;
-      final isLoggedIn = loginProvider.logged;
-      final location = state.uri.toString();
-
-      // Espera a que se complete la verificación de sesión
-      if (!isInitialized) {
-        return null;
-      }
-
-      // Si está logueado y está en login, redirige a home
-      if (isLoggedIn && (location == '/login' || location == '/')) {
-        return '/home';
-      }
-
-      // Si no está logueado y no está en login, redirige a login
-      if (!isLoggedIn && location != '/login') {
-        return '/login';
-      }
-
-      return null;
-    },
     routes: [
       GoRoute(
         path: '/login',
@@ -75,4 +52,40 @@ class AppRouter {
       ),
     ],
   );
+}
+
+/// Wrapper para manejar la navegación basada en el estado de autenticación
+class AuthRouterListener extends ConsumerWidget {
+  final Widget child;
+
+  const AuthRouterListener({required this.child, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Listener para cambios de estado de autenticación
+    ref.listen(authStateProvider, (previous, next) {
+      next.whenOrNull(
+        authenticated: (user) {
+          // Redirigir a home cuando se autentica
+          if (context.mounted) {
+            final currentLocation = GoRouterState.of(context).uri.toString();
+            if (currentLocation == '/login') {
+              AppRouter.router.go('/home');
+            }
+          }
+        },
+        unauthenticated: () {
+          // Redirigir a login cuando se desautentica
+          if (context.mounted) {
+            final currentLocation = GoRouterState.of(context).uri.toString();
+            if (currentLocation != '/login') {
+              AppRouter.router.go('/login');
+            }
+          }
+        },
+      );
+    });
+
+    return child;
+  }
 }

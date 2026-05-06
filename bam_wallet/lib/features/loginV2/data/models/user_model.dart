@@ -1,34 +1,30 @@
-class UserModel {
-  final String id;
-  final String username;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String gender;
-  final String image;
-  final String accessToken;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-  UserModel({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.gender,
-    required this.image,
-    required this.accessToken,
-  });
+part 'user_model.freezed.dart';
+part 'user_model.g.dart';
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id']?.toString() ?? '',
-      username: json['username'] ?? '',
-      email: json['email'] ?? '',
-      firstName: json['firstName'] ?? '',
-      lastName: json['lastName'] ?? '',
-      gender: json['gender'] ?? '',
-      image: json['image'] ?? '',
-      accessToken: json['accessToken'] ?? '',
-    );
-  }
+@freezed
+class UserModel with _$UserModel {
+  const factory UserModel({
+    @JsonKey(fromJson: _stringFromDynamic) required String id,
+    required String username,
+    required String email,
+    @JsonKey(fromJson: _stringFromDynamic) required String firstName,
+    @JsonKey(fromJson: _stringFromDynamic) required String lastName,
+    @JsonKey(fromJson: _stringFromDynamic) required String gender,
+    @JsonKey(fromJson: _stringFromDynamic) required String image,
+    required String accessToken,
+  }) = _UserModel;
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
+}
+
+// Converter function to handle both String and int values
+String _stringFromDynamic(dynamic value) {
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  if (value == null) return '';
+  return value.toString();
 }

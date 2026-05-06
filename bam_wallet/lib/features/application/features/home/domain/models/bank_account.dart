@@ -1,19 +1,16 @@
-class BankAccount {
-  final String id;
-  final String name;
-  final String accountNumber;
-  final String holderName;
-  final double balance;
-  final String currency;
-  final String status;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const BankAccount({
-    required this.id,
-    required this.name,
-    required this.accountNumber,
-    required this.holderName,
-    required this.balance,
-    required this.currency,
-    required this.status,
-  });
+part 'bank_account.freezed.dart';
+
+@freezed
+class BankAccount with _$BankAccount {
+  const factory BankAccount({
+    required String id,
+    required String name,
+    required String accountNumber,
+    required String holderName,
+    required double balance,
+    required String currency,
+    required String status,
+  }) = _BankAccount;
 }

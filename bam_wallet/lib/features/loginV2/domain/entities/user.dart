@@ -1,25 +1,20 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:bam_wallet/features/loginV2/data/models/user_model.dart';
 
-class User {
-  final String accessToken;
-  final String id;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String username;
-  String get newId => 'new_$id';
-  String get fullName => '$firstName $lastName';
+part 'user.freezed.dart';
 
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String email,
+    required String firstName,
+    required String lastName,
+    @Default('') String accessToken,
+    @Default('') String username,
+  }) = _User;
 
-
-  User({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    this.accessToken = '',
-    this.username = '',
-  });
+  const User._();
 
   factory User.fromModel(UserModel userModel) {
     return User(
@@ -32,4 +27,6 @@ class User {
     );
   }
 
+  String get newId => 'new_$id';
+  String get fullName => '$firstName $lastName';
 }

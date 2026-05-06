@@ -104,7 +104,6 @@ class LoginProvider extends ChangeNotifier {
     await _logOutUseCase.call();
     _user = null;
     logged = false;
-    title = 'Login';
     notifyListeners();
   }
 }
