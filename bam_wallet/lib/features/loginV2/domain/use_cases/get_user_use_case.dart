@@ -6,7 +6,8 @@ class GetUserUseCase {
   final AuthenticationRepository _authenticationRepository;
 
   GetUserUseCase({AuthenticationRepository? authenticationRepository})
-      : _authenticationRepository = authenticationRepository ?? AuthenticationRepositoryImpl();
+    : _authenticationRepository =
+          authenticationRepository ?? AuthenticationRepositoryImpl();
 
   Future<UserModel?> call() async {
     return await _authenticationRepository.getUserData();
