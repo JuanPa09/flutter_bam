@@ -118,6 +118,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = AuthState.error(e.toString());
     }
   }
+
+  /// Clear error state to allow retry
+  void clearError() {
+    state = const AuthState.initial();
+  }
 }
 
 // Auth State Provider

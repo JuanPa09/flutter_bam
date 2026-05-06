@@ -62,6 +62,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
     }
   }
 
+  void _handleRetry() {
+    ref.read(authStateProvider.notifier).clearError();
+    _emailController.clear();
+    _passwordController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
@@ -179,33 +185,56 @@ class _LoginViewState extends ConsumerState<LoginView> {
             ),
           ),
         ),
-        error: (message) => Center(
+        error: (message) => SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade100,
-                  border: Border.all(color: Colors.red),
-                  borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 40),
+              Text(
+                AppLocalizations.of(context)!.appTitle,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                child: Text(
-                  message == 'Exception: 401'
-                      ? AppLocalizations.of(context)!.error_401
-                      : message == 'error_invalid_credentials'
-                      ? AppLocalizations.of(context)!.error_invalid_credentials
-                      : message,
-                  style: TextStyle(color: Colors.red.shade900),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  border: Border.all(color: Colors.red.shade400, width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red.shade700,
+                      size: 40,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Error de autenticacion',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.red.shade700,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      message,
+                      style: TextStyle(color: Colors.red.shade700),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _emailController.clear();
-                  _passwordController.clear();
-                },
-                child: Text(AppLocalizations.of(context)!.btn_login),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                onPressed: _handleRetry,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Reintentar'),
               ),
             ],
           ),
