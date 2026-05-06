@@ -125,6 +125,12 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get label_email;
 
+  /// No description provided for @label_username.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get label_username;
+
   /// No description provided for @label_name.
   ///
   /// In en, this message translates to:
@@ -136,6 +142,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your email'**
   String get enter_your_email;
+
+  /// No description provided for @enter_your_username.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username'**
+  String get enter_your_username;
 
   /// No description provided for @label_password.
   ///
@@ -196,6 +208,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid email or password'**
   String get error_401;
+
+  /// No description provided for @error_invalid_credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials'**
+  String get error_invalid_credentials;
 
   /// No description provided for @home_good_morning.
   ///

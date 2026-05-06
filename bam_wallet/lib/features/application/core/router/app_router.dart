@@ -3,8 +3,8 @@ import 'package:bam_wallet/features/application/features/home/presentation/scree
 import 'package:bam_wallet/features/application/features/home/presentation/screens/transfer_screen.dart';
 import 'package:bam_wallet/features/application/features/settings/presentation/screens/settings_screen.dart';
 import 'package:bam_wallet/features/application/features/shell/presentation/screens/main_shell.dart';
-import 'package:bam_wallet/features/login/presentation/providers/login_provider.dart';
-import 'package:bam_wallet/features/login/presentation/views/login_view.dart';
+import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
+import 'package:bam_wallet/features/loginV2/presentation/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,7 @@ class AppRouter {
     initialLocation: '/login',
     redirect: (context, state) {
       final loginProvider = context.read<LoginProvider>();
-      final isLoggedIn = loginProvider.isLoggedIn;
+      final isLoggedIn = loginProvider.logged;
       final location = state.uri.toString();
       if (isLoggedIn && (location == '/login' || location == '/')) {
         return '/home';

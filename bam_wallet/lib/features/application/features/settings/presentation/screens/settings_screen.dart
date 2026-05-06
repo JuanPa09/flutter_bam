@@ -1,4 +1,4 @@
-import 'package:bam_wallet/features/login/presentation/providers/login_provider.dart';
+import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -85,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final user = context.watch<LoginProvider>().user;
-    final name = user?.name ?? 'User';
+    final name = user?.username ?? 'User';
     final username = user?.email ?? '';
 
     return Scaffold(

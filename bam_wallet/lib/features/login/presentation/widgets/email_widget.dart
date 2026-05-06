@@ -26,8 +26,8 @@ class _EmailWidgetState extends State<EmailWidget> {
       controller: widget.controller,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: AppLocalizations.of(context)!.label_email,
-        hintText: AppLocalizations.of(context)!.enter_your_email,
+        labelText: AppLocalizations.of(context)!.label_username,
+        hintText: AppLocalizations.of(context)!.enter_your_username,
         prefixIcon: const Icon(Icons.email),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         contentPadding: const EdgeInsets.all(16),

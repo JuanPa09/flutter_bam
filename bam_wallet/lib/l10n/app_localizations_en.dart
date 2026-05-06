@@ -24,10 +24,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get label_email => 'Email';
 
   @override
+  String get label_username => 'User';
+
+  @override
   String get label_name => 'Name';
 
   @override
   String get enter_your_email => 'Enter your email';
+
+  @override
+  String get enter_your_username => 'Enter your username';
 
   @override
   String get label_password => 'Password';
@@ -58,6 +64,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_401 => 'Invalid email or password';
+
+  @override
+  String get error_invalid_credentials => 'Invalid credentials';
 
   @override
   String get home_good_morning => 'Good morning';

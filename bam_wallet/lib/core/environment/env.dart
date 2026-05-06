@@ -34,6 +34,6 @@ class Env {
 
   static Future<Map<String, dynamic>> load(String fileName) async {
     final String response = await rootBundle.loadString(fileName);
-    return json.decode(response);
+    return json.decode(response)['env'] as Map<String, dynamic>;
   }
 }

@@ -1,9 +1,11 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
 import 'package:bam_wallet/features/application/features/home/data/mock/home_mock_data.dart';
 import 'package:bam_wallet/features/application/features/home/domain/models/bank_account.dart';
+import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,7 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = HomeMockData.user;
+    final sessionUser = context.watch<LoginProvider>().user;
     final accounts = HomeMockData.accounts;
 
     return Scaffold(
@@ -22,8 +24,8 @@ class HomeScreen extends StatelessWidget {
           slivers: [
             SliverToBoxAdapter(
               child: _Header(
-                userName: user.name,
-                photoUrl: user.photoUrl,
+                userName: sessionUser?.fullName ?? '',
+                photoUrl: null,
                 greeting: AppLocalizations.of(context)!.home_good_morning,
               ),
             ),

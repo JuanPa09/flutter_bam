@@ -1,3 +1,4 @@
+import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:bam_wallet/core/network/dio_interceptor.dart';
 import 'package:bam_wallet/features/login/data/datasources/login_remote_datasource.dart';
@@ -5,9 +6,9 @@ import 'package:bam_wallet/features/login/data/datasources/mock_login_datasource
 import 'package:bam_wallet/features/login/data/repositories/login_repository_impl.dart';
 import 'package:bam_wallet/features/login/data/repositories/login_repository_mock_impl.dart';
 import 'package:bam_wallet/features/login/domain/repositories/login_repository.dart';
-import 'package:bam_wallet/features/login/domain/usecases/login_usecase.dart';
-import 'package:bam_wallet/features/login/domain/usecases/logout_usecase.dart';
-import 'package:bam_wallet/features/login/presentation/providers/login_provider.dart';
+// import 'package:bam_wallet/features/login/domain/usecases/login_usecase.dart';
+// import 'package:bam_wallet/features/login/domain/usecases/logout_usecase.dart';
+// import 'package:bam_wallet/features/login/presentation/providers/login_provider.dart';
 
 class ServiceLocator {
   static final ServiceLocator _instance = ServiceLocator._internal();
@@ -19,9 +20,10 @@ class ServiceLocator {
   ServiceLocator._internal();
 
   late LoginRepository _loginRepository;
-  late LoginUseCase _loginUseCase;
-  late LogoutUseCase _logoutUseCase;
+  // late LoginUseCase _loginUseCase;
+  // late LogOutUseCase _logoutUseCase;
   late LoginProvider _loginProvider;
+  // late LoginProvider _loginProvider;
 
   Future<void> setup(String environment) async {
     // Repositories
@@ -40,14 +42,11 @@ class ServiceLocator {
     }
 
     // Use cases
-    _loginUseCase = LoginUseCase(_loginRepository);
-    _logoutUseCase = LogoutUseCase(_loginRepository);
+    // _loginUseCase = LoginUseCase();
+    // _logoutUseCase = LogOutUseCase();
 
     // Providers
-    _loginProvider = LoginProvider(
-      loginUseCase: _loginUseCase,
-      logoutUseCase: _logoutUseCase,
-    );
+    _loginProvider = LoginProvider();
   }
 
   LoginProvider get loginProvider => _loginProvider;

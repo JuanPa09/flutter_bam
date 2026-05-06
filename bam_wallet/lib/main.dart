@@ -1,4 +1,5 @@
 import 'package:bam_wallet/core/environment/env.dart';
+import 'package:bam_wallet/core/local_storage.dart';
 import 'package:bam_wallet/core/service_locator/service_locator.dart';
 import 'package:bam_wallet/features/application/core/router/app_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
@@ -11,6 +12,7 @@ void main() {
 
 void runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalStorage().init();
   await Env.initialize();
   await ServiceLocator().setup('real'); //options: mock, real
   runApp(const MyApp());
