@@ -18,22 +18,32 @@ class AppRouter {
     initialLocation: '/login',
     redirect: (context, state) {
       final loginProvider = context.read<LoginProvider>();
+      final isInitialized = loginProvider.isInitialized;
       final isLoggedIn = loginProvider.logged;
       final location = state.uri.toString();
+
+      // Espera a que se complete la verificación de sesión
+      if (!isInitialized) {
+        return null;
+      }
+
+      // Si está logueado y está en login, redirige a home
       if (isLoggedIn && (location == '/login' || location == '/')) {
         return '/home';
       }
+
+      // Si no está logueado y no está en login, redirige a login
       if (!isLoggedIn && location != '/login') {
         return '/login';
       }
+
       return null;
     },
     routes: [
       GoRoute(
         path: '/login',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: LoginView(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: LoginView()),
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
@@ -43,29 +53,25 @@ class AppRouter {
         routes: [
           GoRoute(
             path: '/home',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HomeScreen(),
-            ),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: HomeScreen()),
           ),
           GoRoute(
             path: '/settings',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SettingsScreen(),
-            ),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: SettingsScreen()),
           ),
         ],
       ),
       GoRoute(
         path: '/transfer',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: TransferScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: TransferScreen()),
       ),
       GoRoute(
         path: '/transfer-history',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: TransferHistoryScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: TransferHistoryScreen()),
       ),
     ],
   );

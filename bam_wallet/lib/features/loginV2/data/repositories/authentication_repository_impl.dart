@@ -1,6 +1,7 @@
 import 'package:bam_wallet/features/loginV2/data/data_sources/local_authentication_data_source.dart';
 import 'package:bam_wallet/features/loginV2/data/data_sources/remote_authentication_data_source.dart';
 import 'package:bam_wallet/features/loginV2/data/models/user_password_model.dart';
+import 'package:bam_wallet/features/loginV2/data/models/user_model.dart';
 import 'package:bam_wallet/features/loginV2/domain/entities/user.dart';
 import 'package:bam_wallet/features/loginV2/domain/repositories/authentication_repository.dart';
 
@@ -38,14 +39,17 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
             UserPasswordModel(username: username, password: password),
           );
       await saveSession(userModel.accessToken);
+      await _localAuthenticationDataSource.saveUserData(userModel);
       return User(
         id: userModel.id,
         email: userModel.email,
         firstName: userModel.firstName,
         lastName: userModel.lastName,
+        accessToken: userModel.accessToken,
+        username: userModel.username,
       );
     } catch (e) {
-      print(  'Error in signIUpWithUsernameAndPassword: $e');
+      print('Error in signIUpWithUsernameAndPassword: $e');
       rethrow;
     }
   }
@@ -59,5 +63,10 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   Future<bool> isLoggedIn() async {
     final sessionToken = await _localAuthenticationDataSource.getSession();
     return sessionToken != null && sessionToken.isNotEmpty;
+  }
+
+  @override
+  Future<UserModel?> getUserData() async {
+    return await _localAuthenticationDataSource.getUserData();
   }
 }

@@ -4,29 +4,24 @@ import 'package:bam_wallet/features/loginV2/data/models/user_password_model.dart
 import 'package:dio/dio.dart';
 
 class RemoteAuthenticationDataSource {
+  final Dio dio;
 
-  final dio = Dio();
+  RemoteAuthenticationDataSource({Dio? dio}) : dio = dio ?? Dio();
 
   Future<UserModel> signIUpWithUsernameAndPassword(
-    UserPasswordModel userPasswordModel
+    UserPasswordModel userPasswordModel,
   ) async {
     final data = userPasswordModel.toJson();
-    print("Endpoint: ${ApiConsts.usersEndpoint}");
-    print('Sending data to API: $data');
-    final response = await dio.post(
-      ApiConsts.loginEndpoint,
-      data: data,
-    );
-    print("Response status code: ${response.statusCode}");
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      print('Response data: ${response.data}');
-      return UserModel.fromJson(response.data);
-    } else {
-      throw Exception('Failed to sign up');
+    try {
+      final response = await dio.post(ApiConsts.loginEndpoint, data: data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return UserModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to sign up');
+      }
+    } catch (e) {
+      print('Error in authentication request: $e');
+      rethrow;
     }
-
   }
-
-
-
 }
