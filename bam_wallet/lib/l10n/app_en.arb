@@ -57,5 +57,17 @@
     "settings_preferences_privacy_policy": "Privacy policy",
     "settings_preferences_support": "Support center",
     "settings_version": "Version",
-    "settings_coming_soon": "Coming soon"
+    "settings_coming_soon": "Coming soon",
+    "error_invalid_credentials_400": "Invalid credentials. Please check your username and password.",
+    "error_unauthorized_401": "Unauthorized. The credentials you provided are invalid.",
+    "error_forbidden_403": "Access forbidden. Your account may be suspended.",
+    "error_user_not_found_404": "User not found.",
+    "error_server_500": "Server error. Please try again later.",
+    "error_server_generic": "Server error. Please try again later.",
+    "error_connection_timeout": "Connection timeout. Please check your internet connection.",
+    "error_receive_timeout": "Request timeout. Please check your internet connection.",
+    "error_send_timeout": "Request timeout. Please check your internet connection.",
+    "error_request_cancelled": "Request cancelled.",
+    "error_network_unknown": "Network error. Please check your internet connection.",
+    "error_unexpected": "An error occurred. Please try again."
 }

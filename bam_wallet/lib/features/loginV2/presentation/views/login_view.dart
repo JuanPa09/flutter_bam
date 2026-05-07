@@ -62,10 +62,34 @@ class _LoginViewState extends ConsumerState<LoginView> {
     }
   }
 
-  void _handleRetry() {
-    ref.read(authStateProvider.notifier).clearError();
-    _emailController.clear();
-    _passwordController.clear();
+  /// Translates error keys to localized strings
+  String _getLocalizedErrorMessage(String errorKey) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (errorKey) {
+      case 'error_invalid_credentials_400':
+        return l10n.error_invalid_credentials_400;
+      case 'error_unauthorized_401':
+        return l10n.error_unauthorized_401;
+      case 'error_forbidden_403':
+        return l10n.error_forbidden_403;
+      case 'error_user_not_found_404':
+        return l10n.error_user_not_found_404;
+      case 'error_server_500':
+        return l10n.error_server_500;
+      case 'error_connection_timeout':
+        return l10n.error_connection_timeout;
+      case 'error_receive_timeout':
+        return l10n.error_receive_timeout;
+      case 'error_send_timeout':
+        return l10n.error_send_timeout;
+      case 'error_request_cancelled':
+        return l10n.error_request_cancelled;
+      case 'error_network_unknown':
+        return l10n.error_network_unknown;
+      case 'error_unexpected':
+      default:
+        return l10n.error_unexpected;
+    }
   }
 
   @override
@@ -187,56 +211,65 @@ class _LoginViewState extends ConsumerState<LoginView> {
         ),
         error: (message) => SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 40),
-              Text(
-                AppLocalizations.of(context)!.appTitle,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 40),
+                Text(
+                  AppLocalizations.of(context)!.appTitle,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  border: Border.all(color: Colors.red.shade400, width: 2),
-                  borderRadius: BorderRadius.circular(12),
+                const SizedBox(height: 12),
+                Text(
+                  AppLocalizations.of(context)!.login_instructions,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
                 ),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      color: Colors.red.shade700,
-                      size: 40,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Error de autenticacion',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.red.shade700,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      message,
-                      style: TextStyle(color: Colors.red.shade700),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                const SizedBox(height: 48),
+                EmailWidget(controller: _emailController),
+                const SizedBox(height: 16),
+                PasswordWidget(
+                  controller: _passwordController,
+                  validator: _validatePassword,
                 ),
-              ),
-              const SizedBox(height: 32),
-              ElevatedButton.icon(
-                onPressed: _handleRetry,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Reintentar'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                // Error message - small and compact
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade100,
+                    border: Border.all(color: Colors.red.shade400),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    _getLocalizedErrorMessage(message),
+                    style: TextStyle(color: Colors.red.shade900, fontSize: 13),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: _handleLogin,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: Text(AppLocalizations.of(context)!.btn_login),
+                ),
+                const SizedBox(height: 24),
+                Center(
+                  child: Text(
+                    'Para probar: \n\n emilys \n emilyspass',
+                    style: Theme.of(context).textTheme.bodySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

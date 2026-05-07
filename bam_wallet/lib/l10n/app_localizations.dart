@@ -388,6 +388,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coming soon'**
   String get settings_coming_soon;
+
+  /// No description provided for @error_invalid_credentials_400.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials. Please check your username and password.'**
+  String get error_invalid_credentials_400;
+
+  /// No description provided for @error_unauthorized_401.
+  ///
+  /// In en, this message translates to:
+  /// **'Unauthorized. The credentials you provided are invalid.'**
+  String get error_unauthorized_401;
+
+  /// No description provided for @error_forbidden_403.
+  ///
+  /// In en, this message translates to:
+  /// **'Access forbidden. Your account may be suspended.'**
+  String get error_forbidden_403;
+
+  /// No description provided for @error_user_not_found_404.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found.'**
+  String get error_user_not_found_404;
+
+  /// No description provided for @error_server_500.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get error_server_500;
+
+  /// No description provided for @error_server_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get error_server_generic;
+
+  /// No description provided for @error_connection_timeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection timeout. Please check your internet connection.'**
+  String get error_connection_timeout;
+
+  /// No description provided for @error_receive_timeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Request timeout. Please check your internet connection.'**
+  String get error_receive_timeout;
+
+  /// No description provided for @error_send_timeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Request timeout. Please check your internet connection.'**
+  String get error_send_timeout;
+
+  /// No description provided for @error_request_cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Request cancelled.'**
+  String get error_request_cancelled;
+
+  /// No description provided for @error_network_unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your internet connection.'**
+  String get error_network_unknown;
+
+  /// No description provided for @error_unexpected.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred. Please try again.'**
+  String get error_unexpected;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

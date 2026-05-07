@@ -57,5 +57,17 @@
     "settings_preferences_privacy_policy": "Políticas de privacidad",
     "settings_preferences_support": "Centro de soporte",
     "settings_version": "Versión",
-    "settings_coming_soon": "Próximamente"
+    "settings_coming_soon": "Próximamente",
+    "error_invalid_credentials_400": "Credenciales inválidas. Por favor verifica tu usuario y contraseña.",
+    "error_unauthorized_401": "No autorizado. Las credenciales que proporcionaste son inválidas.",
+    "error_forbidden_403": "Acceso prohibido. Tu cuenta puede haber sido suspendida.",
+    "error_user_not_found_404": "Usuario no encontrado.",
+    "error_server_500": "Error del servidor. Por favor intenta más tarde.",
+    "error_server_generic": "Error del servidor. Por favor intenta más tarde.",
+    "error_connection_timeout": "Tiempo de conexión agotado. Por favor verifica tu conexión a internet.",
+    "error_receive_timeout": "Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.",
+    "error_send_timeout": "Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.",
+    "error_request_cancelled": "Solicitud cancelada.",
+    "error_network_unknown": "Error de red. Por favor verifica tu conexión a internet.",
+    "error_unexpected": "Ocurrió un error. Por favor intenta de nuevo."
 }
