@@ -1,4 +1,3 @@
-import 'package:bam_wallet/features/loginV2/data/repositories/authentication_repository_impl.dart';
 import 'package:bam_wallet/features/loginV2/domain/entities/user.dart';
 import 'package:bam_wallet/features/loginV2/domain/use_cases/is_logged_use_case.dart';
 import 'package:bam_wallet/features/loginV2/domain/use_cases/log_out_use_case.dart';
@@ -13,15 +12,14 @@ class LoginProvider extends ChangeNotifier {
   final GetUserUseCase _getUserUseCase;
 
   LoginProvider({
-    LoginUseCase? loginUseCase,
-    IsLoggedUseCase? isLoggedUseCase,
-    LogOutUseCase? logOutUseCase,
-    GetUserUseCase? getUserUseCase,
-  }) : _loginUseCase = loginUseCase ?? LoginUseCase(),
-       _isLoggedUseCase = isLoggedUseCase ?? IsLoggedUseCase(),
-       _logOutUseCase =
-           logOutUseCase ?? LogOutUseCase(AuthenticationRepositoryImpl()),
-       _getUserUseCase = getUserUseCase ?? GetUserUseCase(),
+    required LoginUseCase loginUseCase,
+    required IsLoggedUseCase isLoggedUseCase,
+    required LogOutUseCase logOutUseCase,
+    required GetUserUseCase getUserUseCase,
+  }) : _loginUseCase = loginUseCase,
+       _isLoggedUseCase = isLoggedUseCase,
+       _logOutUseCase = logOutUseCase,
+       _getUserUseCase = getUserUseCase,
        super();
 
   String title = 'Login';
@@ -43,24 +41,15 @@ class LoginProvider extends ChangeNotifier {
       if (isLogged) {
         title = 'Welcome back!';
         logged = true;
-        // Cargar datos del usuario guardados
-        final userModel = await _getUserUseCase.call();
-        if (userModel != null) {
-          _user = User(
-            id: userModel.id,
-            email: userModel.email,
-            firstName: userModel.firstName,
-            lastName: userModel.lastName,
-            accessToken: userModel.accessToken,
-            username: userModel.username,
-          );
+        final user = await _getUserUseCase.call();
+        if (user != null) {
+          _user = user;
         }
       } else {
         title = 'Please log in';
         logged = false;
       }
-    } catch (e) {
-      print('Error checking logged in: $e');
+    } catch (_) {
       logged = false;
     } finally {
       isInitialized = true;
@@ -88,12 +77,9 @@ class LoginProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       isLoading = false;
-      if (e.toString().contains('400')) {
-        errorMessage = 'error_invalid_credentials';
-      } else {
-        errorMessage = e.toString();
-      }
-      print('Login error: $e');
+      errorMessage = e.toString().contains('400')
+          ? 'error_invalid_credentials'
+          : e.toString();
       title = 'Login';
       notifyListeners();
       return false;
@@ -107,3 +93,4 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+

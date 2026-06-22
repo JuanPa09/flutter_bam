@@ -1,28 +1,18 @@
-class UserPasswordModel {
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String username;
-  final String password;
+part 'user_password_model.freezed.dart';
 
-  UserPasswordModel({
-    required this.username,
-    required this.password,
-  });
+@freezed
+class UserPasswordModel with _$UserPasswordModel {
+  const factory UserPasswordModel({
+    required String username,
+    required String password,
+  }) = _UserPasswordModel;
 
-  factory UserPasswordModel.fromEntity(Map<String, dynamic> json) {
-    return UserPasswordModel(
-      username: json['username'],
-      password: json['password'],
-    );
-  }
+  const UserPasswordModel._();
 
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-      'password': password,
-    };
-  }
-  
-
-
-
+  Map<String, dynamic> toJson() => {
+    'username': username,
+    'password': password,
+  };
 }

@@ -1,3 +1,4 @@
+import 'package:bam_wallet/features/application/core/locale/locale_provider.dart';
 import 'package:bam_wallet/features/loginV2/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -171,6 +172,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => _showComingSoon(context),
                   ),
+                  _LanguageTile(l10n: l10n),
                   ListTile(
                     title: Text(l10n.settings_preferences_privacy_policy),
                     trailing: const Icon(Icons.chevron_right),
@@ -288,6 +290,30 @@ class _SectionCard extends StatelessWidget {
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Column(mainAxisSize: MainAxisSize.min, children: children),
+      ),
+    );
+  }
+}
+
+class _LanguageTile extends ConsumerWidget {
+  final AppLocalizations l10n;
+
+  const _LanguageTile({required this.l10n});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+    final isSpanish = locale.languageCode == 'es';
+    final currentLabel = isSpanish
+        ? l10n.settings_language_spanish
+        : l10n.settings_language_english;
+
+    return ListTile(
+      leading: const Icon(Icons.language),
+      title: Text(l10n.settings_language),
+      trailing: OutlinedButton(
+        onPressed: () => ref.read(localeProvider.notifier).toggle(),
+        child: Text(currentLabel),
       ),
     );
   }

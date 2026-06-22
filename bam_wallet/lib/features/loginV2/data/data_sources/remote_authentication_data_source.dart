@@ -10,7 +10,7 @@ class RemoteAuthenticationDataSource {
 
   RemoteAuthenticationDataSource({Dio? dio}) : dio = dio ?? Dio();
 
-  Future<UserModel> signIUpWithUsernameAndPassword(
+  Future<UserModel> signInWithUsernameAndPassword(
     UserPasswordModel userPasswordModel,
   ) async {
     final data = userPasswordModel.toJson();

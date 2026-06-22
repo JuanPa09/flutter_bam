@@ -69,5 +69,8 @@
     "error_send_timeout": "Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.",
     "error_request_cancelled": "Solicitud cancelada.",
     "error_network_unknown": "Error de red. Por favor verifica tu conexión a internet.",
-    "error_unexpected": "Ocurrió un error. Por favor intenta de nuevo."
+    "error_unexpected": "Ocurrió un error. Por favor intenta de nuevo.",
+    "settings_language": "Idioma",
+    "settings_language_english": "Inglés",
+    "settings_language_spanish": "Español"
 }

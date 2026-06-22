@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:bam_wallet/features/loginV2/presentation/providers/auth_providers.dart';
-import 'package:bam_wallet/features/login/presentation/widgets/email_widget.dart';
-import 'package:bam_wallet/features/login/presentation/widgets/password_widget.dart';
+import 'package:bam_wallet/features/loginV2/presentation/widgets/email_widget.dart';
+import 'package:bam_wallet/features/loginV2/presentation/widgets/password_widget.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});

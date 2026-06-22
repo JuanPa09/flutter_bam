@@ -460,6 +460,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred. Please try again.'**
   String get error_unexpected;
+
+  /// No description provided for @settings_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settings_language;
+
+  /// No description provided for @settings_language_english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settings_language_english;
+
+  /// No description provided for @settings_language_spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get settings_language_spanish;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,6 +1,7 @@
 import 'package:bam_wallet/core/environment/env.dart';
 import 'package:bam_wallet/core/local_storage.dart';
 import 'package:bam_wallet/core/service_locator/service_locator.dart';
+import 'package:bam_wallet/features/application/core/locale/locale_provider.dart';
 import 'package:bam_wallet/features/application/core/router/app_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,16 @@ void runProject() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
     return AuthRouterListener(
       child: MaterialApp.router(
         title: 'Bam Wallet',
+        locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(

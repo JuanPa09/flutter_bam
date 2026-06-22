@@ -194,4 +194,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_unexpected => 'An error occurred. Please try again.';
+
+  @override
+  String get settings_language => 'Language';
+
+  @override
+  String get settings_language_english => 'English';
+
+  @override
+  String get settings_language_spanish => 'Spanish';
 }

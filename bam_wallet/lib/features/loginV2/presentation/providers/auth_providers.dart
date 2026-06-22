@@ -3,61 +3,24 @@ import 'package:bam_wallet/features/loginV2/domain/use_cases/login_use_case.dart
 import 'package:bam_wallet/features/loginV2/domain/use_cases/log_out_use_case.dart';
 import 'package:bam_wallet/features/loginV2/domain/use_cases/get_user_use_case.dart';
 import 'package:bam_wallet/features/loginV2/domain/use_cases/is_logged_use_case.dart';
-import 'package:bam_wallet/features/loginV2/data/repositories/authentication_repository_impl.dart';
-import 'package:bam_wallet/features/loginV2/data/data_sources/remote_authentication_data_source.dart';
-import 'package:bam_wallet/features/loginV2/data/data_sources/local_authentication_data_source.dart';
-import 'package:bam_wallet/features/loginV2/domain/entities/user.dart';
 import 'package:bam_wallet/features/loginV2/presentation/state/auth_state.dart';
-import 'package:dio/dio.dart' as dio;
-
-// Dio Provider
-final dioProvider = Provider<dio.Dio>((ref) {
-  return dio.Dio();
-});
-
-// Data Sources
-final remoteAuthDataSourceProvider = Provider<RemoteAuthenticationDataSource>((
-  ref,
-) {
-  final dio = ref.watch(dioProvider);
-  return RemoteAuthenticationDataSource(dio: dio);
-});
-
-final localAuthDataSourceProvider = Provider<LocalAuthenticationDataSource>((
-  ref,
-) {
-  return LocalAuthenticationDataSource();
-});
-
-// Repository
-final authRepositoryProvider = Provider((ref) {
-  final remoteDataSource = ref.watch(remoteAuthDataSourceProvider);
-  final localDataSource = ref.watch(localAuthDataSourceProvider);
-  return AuthenticationRepositoryImpl(
-    remoteAuthenticationDataSource: remoteDataSource,
-    localAuthenticationDataSource: localDataSource,
-  );
-});
+import 'package:bam_wallet/features/loginV2/data/di/authentication_di.dart';
 
 // Use Cases
 final loginUseCaseProvider = Provider((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return LoginUseCase(authenticationRepository: repository);
+  return LoginUseCase(authenticationRepository: ref.watch(authRepositoryProvider));
 });
 
 final logOutUseCaseProvider = Provider((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return LogOutUseCase(repository);
+  return LogOutUseCase(ref.watch(authRepositoryProvider));
 });
 
 final getUserUseCaseProvider = Provider((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return GetUserUseCase(authenticationRepository: repository);
+  return GetUserUseCase(authenticationRepository: ref.watch(authRepositoryProvider));
 });
 
 final isLoggedUseCaseProvider = Provider((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return IsLoggedUseCase(authenticationRepository: repository);
+  return IsLoggedUseCase(authenticationRepository: ref.watch(authRepositoryProvider));
 });
 
 // Auth State Notifier
@@ -84,9 +47,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       final isLogged = await _isLoggedUseCase();
       if (isLogged) {
-        final userModel = await _getUserUseCase();
-        if (userModel != null) {
-          final user = User.fromModel(userModel);
+        final user = await _getUserUseCase();
+        if (user != null) {
           state = AuthState.authenticated(user);
         } else {
           state = const AuthState.unauthenticated();
@@ -119,7 +81,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  /// Clear error state to allow retry
   void clearError() {
     state = const AuthState.initial();
   }
@@ -127,26 +88,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
 // Auth State Provider
 final authStateProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final loginUseCase = ref.watch(loginUseCaseProvider);
-  final logOutUseCase = ref.watch(logOutUseCaseProvider);
-  final getUserUseCase = ref.watch(getUserUseCaseProvider);
-  final isLoggedUseCase = ref.watch(isLoggedUseCaseProvider);
-
   return AuthNotifier(
-    loginUseCase: loginUseCase,
-    logOutUseCase: logOutUseCase,
-    getUserUseCase: getUserUseCase,
-    isLoggedUseCase: isLoggedUseCase,
+    loginUseCase: ref.watch(loginUseCaseProvider),
+    logOutUseCase: ref.watch(logOutUseCaseProvider),
+    getUserUseCase: ref.watch(getUserUseCaseProvider),
+    isLoggedUseCase: ref.watch(isLoggedUseCaseProvider),
   );
 });
 
 // Convenience providers
 final userProvider = Provider((ref) {
-  final authState = ref.watch(authStateProvider);
-  return authState.whenOrNull(authenticated: (user) => user);
+  return ref.watch(authStateProvider).whenOrNull(authenticated: (user) => user);
 });
 
 final isAuthenticatedProvider = Provider((ref) {
-  final authState = ref.watch(authStateProvider);
-  return authState.maybeWhen(authenticated: (_) => true, orElse: () => false);
+  return ref.watch(authStateProvider).maybeWhen(
+    authenticated: (_) => true,
+    orElse: () => false,
+  );
 });
+

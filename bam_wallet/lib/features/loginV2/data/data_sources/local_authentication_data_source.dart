@@ -44,8 +44,7 @@ class LocalAuthenticationDataSource {
       try {
         final jsonData = jsonDecode(userJson) as Map<String, dynamic>;
         return UserModel.fromJson(jsonData);
-      } catch (e) {
-        print('Error deserializing user data: $e');
+      } catch (_) {
         return null;
       }
     }

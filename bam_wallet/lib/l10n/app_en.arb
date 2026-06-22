@@ -69,5 +69,8 @@
     "error_send_timeout": "Request timeout. Please check your internet connection.",
     "error_request_cancelled": "Request cancelled.",
     "error_network_unknown": "Network error. Please check your internet connection.",
-    "error_unexpected": "An error occurred. Please try again."
+    "error_unexpected": "An error occurred. Please try again.",
+    "settings_language": "Language",
+    "settings_language_english": "English",
+    "settings_language_spanish": "Spanish"
 }

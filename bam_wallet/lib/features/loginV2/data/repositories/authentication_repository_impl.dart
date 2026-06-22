@@ -10,12 +10,10 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   final LocalAuthenticationDataSource _localAuthenticationDataSource;
 
   AuthenticationRepositoryImpl({
-    RemoteAuthenticationDataSource? remoteAuthenticationDataSource,
-    LocalAuthenticationDataSource? localAuthenticationDataSource,
-  }) : _remoteAuthenticationDataSource =
-           remoteAuthenticationDataSource ?? RemoteAuthenticationDataSource(),
-       _localAuthenticationDataSource =
-           localAuthenticationDataSource ?? LocalAuthenticationDataSource();
+    required RemoteAuthenticationDataSource remoteAuthenticationDataSource,
+    required LocalAuthenticationDataSource localAuthenticationDataSource,
+  }) : _remoteAuthenticationDataSource = remoteAuthenticationDataSource,
+       _localAuthenticationDataSource = localAuthenticationDataSource;
 
   @override
   Future<bool> logOut() async {
@@ -29,29 +27,24 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   }
 
   @override
-  Future<User> signIUpWithUsernameAndPassword({
+  Future<User> signInWithUsernameAndPassword({
     required String username,
     required String password,
   }) async {
-    try {
-      final userModel = await _remoteAuthenticationDataSource
-          .signIUpWithUsernameAndPassword(
-            UserPasswordModel(username: username, password: password),
-          );
-      await saveSession(userModel.accessToken);
-      await _localAuthenticationDataSource.saveUserData(userModel);
-      return User(
-        id: userModel.id,
-        email: userModel.email,
-        firstName: userModel.firstName,
-        lastName: userModel.lastName,
-        accessToken: userModel.accessToken,
-        username: userModel.username,
-      );
-    } catch (e) {
-      print('Error in signIUpWithUsernameAndPassword: $e');
-      rethrow;
-    }
+    final userModel = await _remoteAuthenticationDataSource
+        .signInWithUsernameAndPassword(
+          UserPasswordModel(username: username, password: password),
+        );
+    await saveSession(userModel.accessToken);
+    await _localAuthenticationDataSource.saveUserData(userModel);
+    return User(
+      id: userModel.id,
+      email: userModel.email,
+      firstName: userModel.firstName,
+      lastName: userModel.lastName,
+      accessToken: userModel.accessToken,
+      username: userModel.username,
+    );
   }
 
   @override
@@ -66,7 +59,16 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   }
 
   @override
-  Future<UserModel?> getUserData() async {
-    return await _localAuthenticationDataSource.getUserData();
+  Future<User?> getUserData() async {
+    final userModel = await _localAuthenticationDataSource.getUserData();
+    if (userModel == null) return null;
+    return User(
+      id: userModel.id,
+      email: userModel.email,
+      firstName: userModel.firstName,
+      lastName: userModel.lastName,
+      accessToken: userModel.accessToken,
+      username: userModel.username,
+    );
   }
 }
