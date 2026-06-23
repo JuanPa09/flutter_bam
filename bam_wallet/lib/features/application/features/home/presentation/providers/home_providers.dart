@@ -1,21 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bam_wallet/features/application/features/home/data/data_sources/home_local_data_source.dart';
-import 'package:bam_wallet/features/application/features/home/data/repositories/home_repository_impl.dart';
+import 'package:bam_wallet/features/application/features/home/data/di/home_di.dart';
 import 'package:bam_wallet/features/application/features/home/domain/use_cases/get_accounts_use_case.dart';
 import 'package:bam_wallet/features/application/features/home/domain/use_cases/get_transfers_use_case.dart';
 import 'package:bam_wallet/features/application/features/home/domain/use_cases/make_transfer_use_case.dart';
 import 'package:bam_wallet/features/application/features/home/presentation/state/home_state.dart';
-
-// Data Sources
-final homeDataSourceProvider = Provider<HomeLocalDataSource>((ref) {
-  return HomeLocalDataSource();
-});
-
-// Repository
-final homeRepositoryProvider = Provider((ref) {
-  final dataSource = ref.watch(homeDataSourceProvider);
-  return HomeRepositoryImpl(dataSource: dataSource);
-});
 
 // Use Cases
 final getAccountsUseCaseProvider = Provider((ref) {

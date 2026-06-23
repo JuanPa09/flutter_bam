@@ -1,27 +1,29 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
-import 'package:bam_wallet/features/application/features/home/data/mock/home_mock_data.dart';
 import 'package:bam_wallet/features/application/features/home/domain/models/bank_account.dart';
+import 'package:bam_wallet/features/application/features/home/presentation/providers/home_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class TransferScreen extends StatefulWidget {
+class TransferScreen extends ConsumerStatefulWidget {
   const TransferScreen({super.key});
 
   @override
-  State<TransferScreen> createState() => _TransferScreenState();
+  ConsumerState<TransferScreen> createState() => _TransferScreenState();
 }
 
-class _TransferScreenState extends State<TransferScreen> {
+class _TransferScreenState extends ConsumerState<TransferScreen> {
   BankAccount? _selectedAccount;
   final TextEditingController _destinationController = TextEditingController();
   String _amountStr = '';
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    final accounts = HomeMockData.accounts;
+    final accounts = ref.read(homeAccountsProvider);
     if (accounts.isNotEmpty) _selectedAccount = accounts.first;
   }
 
@@ -58,9 +60,36 @@ class _TransferScreenState extends State<TransferScreen> {
     });
   }
 
+  Future<void> _handleTransfer() async {
+    final destination = _destinationController.text.trim();
+    final amount = double.tryParse(_amountStr);
+    if (_selectedAccount == null || destination.isEmpty || amount == null || amount <= 0) return;
+
+    setState(() => _isLoading = true);
+    try {
+      await ref.read(makeTransferUseCaseProvider).call(
+        fromAccountNumber: _selectedAccount!.accountNumber,
+        toAccountNumber: destination,
+        amount: amount,
+      );
+      if (mounted) {
+        ref.read(homeStateProvider.notifier).refresh();
+        context.pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final accounts = HomeMockData.accounts;
+    final accounts = ref.watch(homeAccountsProvider);
 
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
@@ -131,10 +160,16 @@ class _TransferScreenState extends State<TransferScreen> {
             _NumericKeypad(onKeyPressed: _onKeyPressed),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: () {},
+              onPressed: _isLoading ? null : _handleTransfer,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(l10n.transfer_do_transfer),
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(l10n.transfer_do_transfer),
               ),
             ),
           ],

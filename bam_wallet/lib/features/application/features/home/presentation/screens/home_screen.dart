@@ -1,6 +1,6 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
-import 'package:bam_wallet/features/application/features/home/data/mock/home_mock_data.dart';
 import 'package:bam_wallet/features/application/features/home/domain/models/bank_account.dart';
+import 'package:bam_wallet/features/application/features/home/presentation/providers/home_providers.dart';
 import 'package:bam_wallet/features/loginV2/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -10,63 +10,64 @@ import 'package:go_router/go_router.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  static double get _totalBalance =>
-      HomeMockData.accounts.fold<double>(0, (sum, a) => sum + a.balance);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionUser = ref.watch(userProvider);
-    final accounts = HomeMockData.accounts;
+    final homeState = ref.watch(homeStateProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: _Header(
-                userName: sessionUser?.fullName ?? '',
-                photoUrl: null,
-                greeting: AppLocalizations.of(context)!.home_good_morning,
+        child: homeState.when(
+          initial: () => const SizedBox.shrink(),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (message) => Center(child: Text(message)),
+          loaded: (accounts, _) => CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: _Header(
+                  userName: sessionUser?.fullName ?? '',
+                  photoUrl: null,
+                  greeting: l10n.home_good_morning,
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: _BalanceTotal(
-                amount: _totalBalance,
-                label: AppLocalizations.of(context)!.home_total_balance,
+              SliverToBoxAdapter(
+                child: _BalanceTotal(
+                  amount: accounts.fold<double>(0, (sum, a) => sum + a.balance),
+                  label: l10n.home_total_balance,
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-                child: Text(
-                  AppLocalizations.of(context)!.home_my_accounts,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                  child: Text(
+                    l10n.home_my_accounts,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 6,
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 6,
+                    ),
+                    child: _AccountCard(
+                      account: accounts[index],
+                      transferLabel: l10n.home_transfer,
+                      historyLabel: l10n.home_view_history,
+                      onTransfer: () => context.push('/transfer'),
+                      onHistory: () => context.push('/transfer-history'),
+                    ),
                   ),
-                  child: _AccountCard(
-                    account: accounts[index],
-                    transferLabel: AppLocalizations.of(context)!.home_transfer,
-                    historyLabel: AppLocalizations.of(
-                      context,
-                    )!.home_view_history,
-                    onTransfer: () => context.push('/transfer'),
-                    onHistory: () => context.push('/transfer-history'),
-                  ),
+                  childCount: accounts.length,
                 ),
-                childCount: accounts.length,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

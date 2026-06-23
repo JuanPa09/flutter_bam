@@ -1,19 +1,20 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
-import 'package:bam_wallet/features/application/features/home/data/mock/home_mock_data.dart';
 import 'package:bam_wallet/features/application/features/home/domain/models/transfer.dart';
+import 'package:bam_wallet/features/application/features/home/presentation/providers/home_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class TransferHistoryScreen extends StatelessWidget {
+class TransferHistoryScreen extends ConsumerWidget {
   const TransferHistoryScreen({super.key});
 
   static final _dateFormat = DateFormat('d/MM/yyyy HH:mm');
 
   @override
-  Widget build(BuildContext context) {
-    final transfers = HomeMockData.transfers;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final transfers = ref.watch(homeTransfersProvider);
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
