@@ -16,26 +16,44 @@ void runProject() async {
   await LocalStorage().init();
   await Env.initialize();
   await ServiceLocator().setup('real'); //options: mock, real
-  runApp(ProviderScope(child: MyApp()));
+
+  runApp(const MyApp());
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
+  Widget build(BuildContext context) {
+    return ProviderScope(child: _RouterScope());
+  }
+}
+
+class _RouterScope extends ConsumerWidget {
+  const _RouterScope();
+
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Inicializar el router una sola vez
+    ref.read(_routerProvider);
+
     final locale = ref.watch(localeProvider);
-    return AuthRouterListener(
-      child: MaterialApp.router(
-        title: 'Bam Wallet',
-        locale: locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
-        routerConfig: AppRouter.router,
+
+    return MaterialApp.router(
+      title: 'Bam Wallet',
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      routerConfig: AppRouter.router,
     );
   }
 }
+
+/// Provider para inicializar el router una sola vez
+final _routerProvider = Provider((ref) {
+  AppRouter.initialize(ref);
+  return null;
+});

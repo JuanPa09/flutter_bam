@@ -1,4 +1,4 @@
-import 'package:bam_wallet/features/home/domain/models/transfer.dart';
+import 'package:bam_wallet/features/home/data/models/transfer.dart';
 import 'package:bam_wallet/features/home/domain/repositories/home_repository.dart';
 
 class GetTransfersUseCase {

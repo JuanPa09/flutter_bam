@@ -9,83 +9,107 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bam_wallet/features/login/presentation/providers/auth_providers.dart';
 
+/// Lista de rutas públicas (sin autenticación requerida)
+const List<String> _publicRoutes = ['/login'];
+
+/// Lista de rutas protegidas (requieren autenticación)
+const List<String> _protectedRoutes = [
+  '/home',
+  '/settings',
+  '/transfer',
+  '/transfer-history',
+];
+
+class _AuthRouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  _AuthRouterNotifier(this._ref) {
+    // Escuchar cambios en el estado de autenticación
+    _ref.listen(authStateProvider, (previous, next) {
+      notifyListeners();
+    });
+  }
+
+  bool get isAuthenticated {
+    final authState = _ref.read(authStateProvider);
+    return authState.whenOrNull(authenticated: (user) => true) ?? false;
+  }
+}
+
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-  static final router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
-    initialLocation: '/login',
-    routes: [
-      GoRoute(
-        path: '/login',
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: LoginView()),
-      ),
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) {
-          return MainShell(child: child);
-        },
-        routes: [
-          GoRoute(
-            path: '/home',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: HomeScreen()),
-          ),
-          GoRoute(
-            path: '/settings',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: SettingsScreen()),
-          ),
-        ],
-      ),
-      GoRoute(
-        path: '/transfer',
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: TransferScreen()),
-      ),
-      GoRoute(
-        path: '/transfer-history',
-        pageBuilder: (context, state) =>
-            const NoTransitionPage(child: TransferHistoryScreen()),
-      ),
-    ],
-  );
-}
+  static late final GoRouter _router;
+  static late final _AuthRouterNotifier _authNotifier;
 
-/// Wrapper para manejar la navegación basada en el estado de autenticación
-class AuthRouterListener extends ConsumerWidget {
-  final Widget child;
+  /// Inicializar el router con acceso a Riverpod
+  static void initialize(Ref ref) {
+    _authNotifier = _AuthRouterNotifier(ref);
+    _router = _buildRouter();
+  }
 
-  const AuthRouterListener({required this.child, super.key});
+  static GoRouter get router => _router;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Listener para cambios de estado de autenticación
-    ref.listen(authStateProvider, (previous, next) {
-      next.whenOrNull(
-        authenticated: (user) {
-          // Redirigir a home cuando se autentica
-          if (context.mounted) {
-            final currentLocation = GoRouterState.of(context).uri.toString();
-            if (currentLocation == '/login') {
-              AppRouter.router.go('/home');
-            }
-          }
-        },
-        unauthenticated: () {
-          // Redirigir a login cuando se desautentica
-          if (context.mounted) {
-            final currentLocation = GoRouterState.of(context).uri.toString();
-            if (currentLocation != '/login') {
-              AppRouter.router.go('/login');
-            }
-          }
-        },
-      );
-    });
+  /// Construir el router con lógica de redirección
+  static GoRouter _buildRouter() {
+    return GoRouter(
+      navigatorKey: _rootNavigatorKey,
+      initialLocation: '/login',
+      refreshListenable: _authNotifier,
+      redirect: (context, state) {
+        final isAuthenticated = _authNotifier.isAuthenticated;
+        final isPublicRoute = _publicRoutes.contains(state.uri.path);
+        final isProtectedRoute = _protectedRoutes.contains(state.uri.path);
 
-    return child;
+        // Si está autenticado y va a /login, ir a /home
+        if (isAuthenticated && isPublicRoute) {
+          return '/home';
+        }
+
+        // Si NO está autenticado y va a ruta protegida, ir a /login
+        if (!isAuthenticated && isProtectedRoute) {
+          return '/login';
+        }
+
+        // Sin cambios de ruta
+        return null;
+      },
+      routes: [
+        GoRoute(
+          path: '/login',
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: LoginView()),
+        ),
+        ShellRoute(
+          navigatorKey: _shellNavigatorKey,
+          builder: (context, state, child) {
+            return MainShell(child: child);
+          },
+          routes: [
+            GoRoute(
+              path: '/home',
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: HomeScreen()),
+            ),
+            GoRoute(
+              path: '/settings',
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: SettingsScreen()),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/transfer',
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: TransferScreen()),
+        ),
+        GoRoute(
+          path: '/transfer-history',
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: TransferHistoryScreen()),
+        ),
+      ],
+    );
   }
 }

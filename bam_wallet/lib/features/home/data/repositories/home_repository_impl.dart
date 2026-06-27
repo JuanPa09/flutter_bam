@@ -1,6 +1,6 @@
 import 'package:bam_wallet/features/home/data/data_sources/home_data_source.dart';
-import 'package:bam_wallet/features/home/domain/models/bank_account.dart';
-import 'package:bam_wallet/features/home/domain/models/transfer.dart';
+import 'package:bam_wallet/features/home/data/models/bank_account.dart';
+import 'package:bam_wallet/features/home/data/models/transfer.dart';
 import 'package:bam_wallet/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
