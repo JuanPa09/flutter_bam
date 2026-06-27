@@ -1,11 +1,11 @@
-import 'package:bam_wallet/features/loginV2/presentation/state/login_provider.dart';
-import 'package:bam_wallet/features/loginV2/domain/use_cases/is_logged_use_case.dart';
-import 'package:bam_wallet/features/loginV2/domain/use_cases/login_use_case.dart';
-import 'package:bam_wallet/features/loginV2/domain/use_cases/log_out_use_case.dart';
-import 'package:bam_wallet/features/loginV2/domain/use_cases/get_user_use_case.dart';
-import 'package:bam_wallet/features/loginV2/data/repositories/authentication_repository_impl.dart';
-import 'package:bam_wallet/features/loginV2/data/data_sources/remote_authentication_data_source.dart';
-import 'package:bam_wallet/features/loginV2/data/data_sources/local_authentication_data_source.dart';
+import 'package:bam_wallet/features/login/presentation/state/login_provider.dart';
+import 'package:bam_wallet/features/login/domain/use_cases/is_logged_use_case.dart';
+import 'package:bam_wallet/features/login/domain/use_cases/login_use_case.dart';
+import 'package:bam_wallet/features/login/domain/use_cases/log_out_use_case.dart';
+import 'package:bam_wallet/features/login/domain/use_cases/get_user_use_case.dart';
+import 'package:bam_wallet/features/login/data/repositories/authentication_repository_impl.dart';
+import 'package:bam_wallet/features/login/data/data_sources/remote_authentication_data_source.dart';
+import 'package:bam_wallet/features/login/data/data_sources/local_authentication_data_source.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:bam_wallet/core/network/dio_interceptor.dart';
 

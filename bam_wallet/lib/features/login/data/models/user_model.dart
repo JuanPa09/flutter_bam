@@ -1,23 +1,38 @@
-import 'package:bam_wallet/features/login/domain/entities/user.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UserModel extends User {
-  const UserModel({
-    required super.id,
-    required super.email,
-    required super.name,
-    required super.token,
-  });
+part 'user_model.freezed.dart';
+
+@freezed
+class UserModel with _$UserModel {
+  const factory UserModel({
+    required String id,
+    required String username,
+    required String email,
+    required String firstName,
+    required String lastName,
+    required String gender,
+    required String image,
+    required String accessToken,
+  }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as String? ?? '',
+      id: _stringFromDynamic(json['id']),
+      username: json['username'] as String? ?? '',
       email: json['email'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      token: json['token'] as String? ?? '',
+      firstName: _stringFromDynamic(json['firstName']),
+      lastName: _stringFromDynamic(json['lastName']),
+      gender: _stringFromDynamic(json['gender']),
+      image: _stringFromDynamic(json['image']),
+      accessToken: json['accessToken'] as String? ?? '',
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'email': email, 'name': name, 'token': token};
-  }
+// Converter function to handle both String and int values
+String _stringFromDynamic(dynamic value) {
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  if (value == null) return '';
+  return value.toString();
 }

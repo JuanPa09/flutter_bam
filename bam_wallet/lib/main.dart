@@ -1,8 +1,8 @@
 import 'package:bam_wallet/core/environment/env.dart';
 import 'package:bam_wallet/core/local_storage.dart';
 import 'package:bam_wallet/core/service_locator/service_locator.dart';
-import 'package:bam_wallet/features/application/core/locale/locale_provider.dart';
-import 'package:bam_wallet/features/application/core/router/app_router.dart';
+import 'package:bam_wallet/core/locale/locale_provider.dart';
+import 'package:bam_wallet/core/router/app_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

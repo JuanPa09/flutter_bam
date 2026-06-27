@@ -1,18 +1,32 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:bam_wallet/features/login/data/models/user_model.dart';
 
-class User extends Equatable {
-  final String id;
-  final String email;
-  final String name;
-  final String token;
+part 'user.freezed.dart';
 
-  const User({
-    required this.id,
-    required this.email,
-    required this.name,
-    required this.token,
-  });
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String email,
+    required String firstName,
+    required String lastName,
+    @Default('') String accessToken,
+    @Default('') String username,
+  }) = _User;
 
-  @override
-  List<Object?> get props => [id, email, name, token];
+  const User._();
+
+  factory User.fromModel(UserModel userModel) {
+    return User(
+      id: userModel.id,
+      email: userModel.email,
+      firstName: userModel.firstName,
+      lastName: userModel.lastName,
+      accessToken: userModel.accessToken,
+      username: userModel.username,
+    );
+  }
+
+  String get newId => 'new_$id';
+  String get fullName => '$firstName $lastName';
 }
