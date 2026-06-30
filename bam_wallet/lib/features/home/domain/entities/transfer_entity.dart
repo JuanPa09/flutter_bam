@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'transfer.freezed.dart';
-part 'transfer.g.dart';
+part 'transfer_entity.freezed.dart';
 
 @freezed
 class Transfer with _$Transfer {
@@ -16,7 +15,4 @@ class Transfer with _$Transfer {
     required DateTime date,
     required bool isOutgoing,
   }) = _Transfer;
-
-  factory Transfer.fromJson(Map<String, dynamic> json) =>
-      _$TransferFromJson(json);
 }

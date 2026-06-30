@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:bam_wallet/features/home/data/models/bank_account.dart';
-import 'package:bam_wallet/features/home/data/models/transfer.dart';
+import 'package:bam_wallet/features/home/domain/entities/bank_account_entity.dart';
+import 'package:bam_wallet/features/home/domain/entities/transfer_entity.dart';
 
 part 'home_state.freezed.dart';
 

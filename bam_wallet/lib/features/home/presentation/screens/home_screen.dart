@@ -1,5 +1,5 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
-import 'package:bam_wallet/features/home/data/models/bank_account.dart';
+import 'package:bam_wallet/features/home/domain/entities/bank_account_entity.dart';
 import 'package:bam_wallet/features/home/presentation/providers/home_providers.dart';
 import 'package:bam_wallet/features/login/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';

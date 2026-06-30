@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'bank_account.dart';
+part of 'bank_account_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-BankAccount _$BankAccountFromJson(Map<String, dynamic> json) {
-  return _BankAccount.fromJson(json);
+BankAccountModel _$BankAccountModelFromJson(Map<String, dynamic> json) {
+  return _BankAccountModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$BankAccount {
+mixin _$BankAccountModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get accountNumber => throw _privateConstructorUsedError;
@@ -29,22 +29,22 @@ mixin _$BankAccount {
   String get currency => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
 
-  /// Serializes this BankAccount to a JSON map.
+  /// Serializes this BankAccountModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of BankAccount
+  /// Create a copy of BankAccountModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BankAccountCopyWith<BankAccount> get copyWith =>
+  $BankAccountModelCopyWith<BankAccountModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BankAccountCopyWith<$Res> {
-  factory $BankAccountCopyWith(
-    BankAccount value,
-    $Res Function(BankAccount) then,
-  ) = _$BankAccountCopyWithImpl<$Res, BankAccount>;
+abstract class $BankAccountModelCopyWith<$Res> {
+  factory $BankAccountModelCopyWith(
+    BankAccountModel value,
+    $Res Function(BankAccountModel) then,
+  ) = _$BankAccountModelCopyWithImpl<$Res, BankAccountModel>;
   @useResult
   $Res call({
     String id,
@@ -58,16 +58,16 @@ abstract class $BankAccountCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BankAccountCopyWithImpl<$Res, $Val extends BankAccount>
-    implements $BankAccountCopyWith<$Res> {
-  _$BankAccountCopyWithImpl(this._value, this._then);
+class _$BankAccountModelCopyWithImpl<$Res, $Val extends BankAccountModel>
+    implements $BankAccountModelCopyWith<$Res> {
+  _$BankAccountModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of BankAccount
+  /// Create a copy of BankAccountModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -117,12 +117,12 @@ class _$BankAccountCopyWithImpl<$Res, $Val extends BankAccount>
 }
 
 /// @nodoc
-abstract class _$$BankAccountImplCopyWith<$Res>
-    implements $BankAccountCopyWith<$Res> {
-  factory _$$BankAccountImplCopyWith(
-    _$BankAccountImpl value,
-    $Res Function(_$BankAccountImpl) then,
-  ) = __$$BankAccountImplCopyWithImpl<$Res>;
+abstract class _$$BankAccountModelImplCopyWith<$Res>
+    implements $BankAccountModelCopyWith<$Res> {
+  factory _$$BankAccountModelImplCopyWith(
+    _$BankAccountModelImpl value,
+    $Res Function(_$BankAccountModelImpl) then,
+  ) = __$$BankAccountModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -137,15 +137,15 @@ abstract class _$$BankAccountImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BankAccountImplCopyWithImpl<$Res>
-    extends _$BankAccountCopyWithImpl<$Res, _$BankAccountImpl>
-    implements _$$BankAccountImplCopyWith<$Res> {
-  __$$BankAccountImplCopyWithImpl(
-    _$BankAccountImpl _value,
-    $Res Function(_$BankAccountImpl) _then,
+class __$$BankAccountModelImplCopyWithImpl<$Res>
+    extends _$BankAccountModelCopyWithImpl<$Res, _$BankAccountModelImpl>
+    implements _$$BankAccountModelImplCopyWith<$Res> {
+  __$$BankAccountModelImplCopyWithImpl(
+    _$BankAccountModelImpl _value,
+    $Res Function(_$BankAccountModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of BankAccount
+  /// Create a copy of BankAccountModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -159,7 +159,7 @@ class __$$BankAccountImplCopyWithImpl<$Res>
     Object? status = null,
   }) {
     return _then(
-      _$BankAccountImpl(
+      _$BankAccountModelImpl(
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -195,8 +195,8 @@ class __$$BankAccountImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BankAccountImpl implements _BankAccount {
-  const _$BankAccountImpl({
+class _$BankAccountModelImpl implements _BankAccountModel {
+  const _$BankAccountModelImpl({
     required this.id,
     required this.name,
     required this.accountNumber,
@@ -206,8 +206,8 @@ class _$BankAccountImpl implements _BankAccount {
     required this.status,
   });
 
-  factory _$BankAccountImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BankAccountImplFromJson(json);
+  factory _$BankAccountModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BankAccountModelImplFromJson(json);
 
   @override
   final String id;
@@ -226,14 +226,14 @@ class _$BankAccountImpl implements _BankAccount {
 
   @override
   String toString() {
-    return 'BankAccount(id: $id, name: $name, accountNumber: $accountNumber, holderName: $holderName, balance: $balance, currency: $currency, status: $status)';
+    return 'BankAccountModel(id: $id, name: $name, accountNumber: $accountNumber, holderName: $holderName, balance: $balance, currency: $currency, status: $status)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BankAccountImpl &&
+            other is _$BankAccountModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.accountNumber, accountNumber) ||
@@ -259,22 +259,25 @@ class _$BankAccountImpl implements _BankAccount {
     status,
   );
 
-  /// Create a copy of BankAccount
+  /// Create a copy of BankAccountModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$BankAccountImplCopyWith<_$BankAccountImpl> get copyWith =>
-      __$$BankAccountImplCopyWithImpl<_$BankAccountImpl>(this, _$identity);
+  _$$BankAccountModelImplCopyWith<_$BankAccountModelImpl> get copyWith =>
+      __$$BankAccountModelImplCopyWithImpl<_$BankAccountModelImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BankAccountImplToJson(this);
+    return _$$BankAccountModelImplToJson(this);
   }
 }
 
-abstract class _BankAccount implements BankAccount {
-  const factory _BankAccount({
+abstract class _BankAccountModel implements BankAccountModel {
+  const factory _BankAccountModel({
     required final String id,
     required final String name,
     required final String accountNumber,
@@ -282,10 +285,10 @@ abstract class _BankAccount implements BankAccount {
     required final double balance,
     required final String currency,
     required final String status,
-  }) = _$BankAccountImpl;
+  }) = _$BankAccountModelImpl;
 
-  factory _BankAccount.fromJson(Map<String, dynamic> json) =
-      _$BankAccountImpl.fromJson;
+  factory _BankAccountModel.fromJson(Map<String, dynamic> json) =
+      _$BankAccountModelImpl.fromJson;
 
   @override
   String get id;
@@ -302,10 +305,10 @@ abstract class _BankAccount implements BankAccount {
   @override
   String get status;
 
-  /// Create a copy of BankAccount
+  /// Create a copy of BankAccountModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BankAccountImplCopyWith<_$BankAccountImpl> get copyWith =>
+  _$$BankAccountModelImplCopyWith<_$BankAccountModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

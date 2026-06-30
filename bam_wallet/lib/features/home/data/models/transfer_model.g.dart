@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transfer.dart';
+part of 'transfer_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TransferImpl _$$TransferImplFromJson(Map<String, dynamic> json) =>
-    _$TransferImpl(
+_$TransferModelImpl _$$TransferModelImplFromJson(Map<String, dynamic> json) =>
+    _$TransferModelImpl(
       id: json['id'] as String,
       fromAccountNumber: json['fromAccountNumber'] as String,
       toAccountNumber: json['toAccountNumber'] as String,
@@ -19,7 +19,7 @@ _$TransferImpl _$$TransferImplFromJson(Map<String, dynamic> json) =>
       isOutgoing: json['isOutgoing'] as bool,
     );
 
-Map<String, dynamic> _$$TransferImplToJson(_$TransferImpl instance) =>
+Map<String, dynamic> _$$TransferModelImplToJson(_$TransferModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'fromAccountNumber': instance.fromAccountNumber,

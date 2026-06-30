@@ -1,14 +1,14 @@
-import 'package:bam_wallet/features/home/data/models/bank_account.dart';
-import 'package:bam_wallet/features/home/data/models/transfer.dart';
+import 'package:bam_wallet/features/home/data/models/bank_account_model.dart';
+import 'package:bam_wallet/features/home/data/models/transfer_model.dart';
 
 interface class BankAccountDataSource {
   BankAccountDataSource();
 
-  Future<List<BankAccount>> getAllAccounts() async {
+  Future<List<BankAccountModel>> getAllAccounts() async {
     return [];
   }
 
-  Future<List<Transfer>> getAllTransfers() async {
+  Future<List<TransferModel>> getAllTransfers() async {
     return [];
   }
 }

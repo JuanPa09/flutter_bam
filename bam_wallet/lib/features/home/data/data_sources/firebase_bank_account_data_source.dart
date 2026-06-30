@@ -1,5 +1,5 @@
-import 'package:bam_wallet/features/home/data/models/bank_account.dart';
-import 'package:bam_wallet/features/home/data/models/transfer.dart';
+import 'package:bam_wallet/features/home/data/models/bank_account_model.dart';
+import 'package:bam_wallet/features/home/data/models/transfer_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bam_wallet/features/home/data/data_sources/bank_account_data_source.dart';
 
@@ -10,13 +10,13 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
     : _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
-  Future<List<BankAccount>> getAllAccounts() async {
+  Future<List<BankAccountModel>> getAllAccounts() async {
     try {
       final querySnapshot = await _firestore.collection('accounts').get();
 
       final accounts = querySnapshot.docs.map((doc) {
         try {
-          return BankAccount.fromJson(doc.data());
+          return BankAccountModel.fromJson(doc.data());
         } catch (e) {
           rethrow;
         }
@@ -33,7 +33,7 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
   }
 
   @override
-  Future<List<Transfer>> getAllTransfers() async {
+  Future<List<TransferModel>> getAllTransfers() async {
     try {
       final querySnapshot = await _firestore
           .collection('history_accounts')
@@ -50,7 +50,7 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
                 .toIso8601String();
           }
 
-          return Transfer.fromJson(data);
+          return TransferModel.fromJson(data);
         } catch (e) {
           print('Error parsing transfer document: $e');
           print('Raw document data: ${doc.data()}');

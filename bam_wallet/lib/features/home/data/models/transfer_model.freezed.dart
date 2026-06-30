@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'transfer.dart';
+part of 'transfer_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-Transfer _$TransferFromJson(Map<String, dynamic> json) {
-  return _Transfer.fromJson(json);
+TransferModel _$TransferModelFromJson(Map<String, dynamic> json) {
+  return _TransferModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Transfer {
+mixin _$TransferModel {
   String get id => throw _privateConstructorUsedError;
   String get fromAccountNumber => throw _privateConstructorUsedError;
   String get toAccountNumber => throw _privateConstructorUsedError;
@@ -31,20 +31,22 @@ mixin _$Transfer {
   DateTime get date => throw _privateConstructorUsedError;
   bool get isOutgoing => throw _privateConstructorUsedError;
 
-  /// Serializes this Transfer to a JSON map.
+  /// Serializes this TransferModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Transfer
+  /// Create a copy of TransferModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $TransferCopyWith<Transfer> get copyWith =>
+  $TransferModelCopyWith<TransferModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TransferCopyWith<$Res> {
-  factory $TransferCopyWith(Transfer value, $Res Function(Transfer) then) =
-      _$TransferCopyWithImpl<$Res, Transfer>;
+abstract class $TransferModelCopyWith<$Res> {
+  factory $TransferModelCopyWith(
+    TransferModel value,
+    $Res Function(TransferModel) then,
+  ) = _$TransferModelCopyWithImpl<$Res, TransferModel>;
   @useResult
   $Res call({
     String id,
@@ -60,16 +62,16 @@ abstract class $TransferCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TransferCopyWithImpl<$Res, $Val extends Transfer>
-    implements $TransferCopyWith<$Res> {
-  _$TransferCopyWithImpl(this._value, this._then);
+class _$TransferModelCopyWithImpl<$Res, $Val extends TransferModel>
+    implements $TransferModelCopyWith<$Res> {
+  _$TransferModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Transfer
+  /// Create a copy of TransferModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -129,12 +131,12 @@ class _$TransferCopyWithImpl<$Res, $Val extends Transfer>
 }
 
 /// @nodoc
-abstract class _$$TransferImplCopyWith<$Res>
-    implements $TransferCopyWith<$Res> {
-  factory _$$TransferImplCopyWith(
-    _$TransferImpl value,
-    $Res Function(_$TransferImpl) then,
-  ) = __$$TransferImplCopyWithImpl<$Res>;
+abstract class _$$TransferModelImplCopyWith<$Res>
+    implements $TransferModelCopyWith<$Res> {
+  factory _$$TransferModelImplCopyWith(
+    _$TransferModelImpl value,
+    $Res Function(_$TransferModelImpl) then,
+  ) = __$$TransferModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -151,15 +153,15 @@ abstract class _$$TransferImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$TransferImplCopyWithImpl<$Res>
-    extends _$TransferCopyWithImpl<$Res, _$TransferImpl>
-    implements _$$TransferImplCopyWith<$Res> {
-  __$$TransferImplCopyWithImpl(
-    _$TransferImpl _value,
-    $Res Function(_$TransferImpl) _then,
+class __$$TransferModelImplCopyWithImpl<$Res>
+    extends _$TransferModelCopyWithImpl<$Res, _$TransferModelImpl>
+    implements _$$TransferModelImplCopyWith<$Res> {
+  __$$TransferModelImplCopyWithImpl(
+    _$TransferModelImpl _value,
+    $Res Function(_$TransferModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of Transfer
+  /// Create a copy of TransferModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -175,7 +177,7 @@ class __$$TransferImplCopyWithImpl<$Res>
     Object? isOutgoing = null,
   }) {
     return _then(
-      _$TransferImpl(
+      _$TransferModelImpl(
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -219,8 +221,8 @@ class __$$TransferImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TransferImpl implements _Transfer {
-  const _$TransferImpl({
+class _$TransferModelImpl implements _TransferModel {
+  const _$TransferModelImpl({
     required this.id,
     required this.fromAccountNumber,
     required this.toAccountNumber,
@@ -232,8 +234,8 @@ class _$TransferImpl implements _Transfer {
     required this.isOutgoing,
   });
 
-  factory _$TransferImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TransferImplFromJson(json);
+  factory _$TransferModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransferModelImplFromJson(json);
 
   @override
   final String id;
@@ -256,14 +258,14 @@ class _$TransferImpl implements _Transfer {
 
   @override
   String toString() {
-    return 'Transfer(id: $id, fromAccountNumber: $fromAccountNumber, toAccountNumber: $toAccountNumber, fromHolder: $fromHolder, toHolder: $toHolder, amount: $amount, currency: $currency, date: $date, isOutgoing: $isOutgoing)';
+    return 'TransferModel(id: $id, fromAccountNumber: $fromAccountNumber, toAccountNumber: $toAccountNumber, fromHolder: $fromHolder, toHolder: $toHolder, amount: $amount, currency: $currency, date: $date, isOutgoing: $isOutgoing)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TransferImpl &&
+            other is _$TransferModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fromAccountNumber, fromAccountNumber) ||
                 other.fromAccountNumber == fromAccountNumber) &&
@@ -296,22 +298,22 @@ class _$TransferImpl implements _Transfer {
     isOutgoing,
   );
 
-  /// Create a copy of Transfer
+  /// Create a copy of TransferModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TransferImplCopyWith<_$TransferImpl> get copyWith =>
-      __$$TransferImplCopyWithImpl<_$TransferImpl>(this, _$identity);
+  _$$TransferModelImplCopyWith<_$TransferModelImpl> get copyWith =>
+      __$$TransferModelImplCopyWithImpl<_$TransferModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TransferImplToJson(this);
+    return _$$TransferModelImplToJson(this);
   }
 }
 
-abstract class _Transfer implements Transfer {
-  const factory _Transfer({
+abstract class _TransferModel implements TransferModel {
+  const factory _TransferModel({
     required final String id,
     required final String fromAccountNumber,
     required final String toAccountNumber,
@@ -321,10 +323,10 @@ abstract class _Transfer implements Transfer {
     required final String currency,
     required final DateTime date,
     required final bool isOutgoing,
-  }) = _$TransferImpl;
+  }) = _$TransferModelImpl;
 
-  factory _Transfer.fromJson(Map<String, dynamic> json) =
-      _$TransferImpl.fromJson;
+  factory _TransferModel.fromJson(Map<String, dynamic> json) =
+      _$TransferModelImpl.fromJson;
 
   @override
   String get id;
@@ -345,10 +347,10 @@ abstract class _Transfer implements Transfer {
   @override
   bool get isOutgoing;
 
-  /// Create a copy of Transfer
+  /// Create a copy of TransferModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransferImplCopyWith<_$TransferImpl> get copyWith =>
+  _$$TransferModelImplCopyWith<_$TransferModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
