@@ -4,6 +4,8 @@ import 'package:bam_wallet/core/service_locator/service_locator.dart';
 import 'package:bam_wallet/core/locale/locale_provider.dart';
 import 'package:bam_wallet/core/router/app_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
+import 'package:bam_wallet/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +15,10 @@ void main() {
 
 void runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   await LocalStorage().init();
   await Env.initialize();
   await ServiceLocator().setup('real'); //options: mock, real

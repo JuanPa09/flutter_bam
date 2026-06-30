@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+BankAccount _$BankAccountFromJson(Map<String, dynamic> json) {
+  return _BankAccount.fromJson(json);
+}
+
 /// @nodoc
 mixin _$BankAccount {
   String get id => throw _privateConstructorUsedError;
@@ -24,6 +28,9 @@ mixin _$BankAccount {
   double get balance => throw _privateConstructorUsedError;
   String get currency => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
+
+  /// Serializes this BankAccount to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of BankAccount
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +194,7 @@ class __$$BankAccountImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$BankAccountImpl implements _BankAccount {
   const _$BankAccountImpl({
     required this.id,
@@ -198,6 +205,9 @@ class _$BankAccountImpl implements _BankAccount {
     required this.currency,
     required this.status,
   });
+
+  factory _$BankAccountImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BankAccountImplFromJson(json);
 
   @override
   final String id;
@@ -236,6 +246,7 @@ class _$BankAccountImpl implements _BankAccount {
             (identical(other.status, status) || other.status == status));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -255,6 +266,11 @@ class _$BankAccountImpl implements _BankAccount {
   @pragma('vm:prefer-inline')
   _$$BankAccountImplCopyWith<_$BankAccountImpl> get copyWith =>
       __$$BankAccountImplCopyWithImpl<_$BankAccountImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BankAccountImplToJson(this);
+  }
 }
 
 abstract class _BankAccount implements BankAccount {
@@ -267,6 +283,9 @@ abstract class _BankAccount implements BankAccount {
     required final String currency,
     required final String status,
   }) = _$BankAccountImpl;
+
+  factory _BankAccount.fromJson(Map<String, dynamic> json) =
+      _$BankAccountImpl.fromJson;
 
   @override
   String get id;

@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+Transfer _$TransferFromJson(Map<String, dynamic> json) {
+  return _Transfer.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Transfer {
   String get id => throw _privateConstructorUsedError;
@@ -26,6 +30,9 @@ mixin _$Transfer {
   String get currency => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
   bool get isOutgoing => throw _privateConstructorUsedError;
+
+  /// Serializes this Transfer to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Transfer
   /// with the given fields replaced by the non-null parameter values.
@@ -211,7 +218,7 @@ class __$$TransferImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$TransferImpl implements _Transfer {
   const _$TransferImpl({
     required this.id,
@@ -224,6 +231,9 @@ class _$TransferImpl implements _Transfer {
     required this.date,
     required this.isOutgoing,
   });
+
+  factory _$TransferImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransferImplFromJson(json);
 
   @override
   final String id;
@@ -271,6 +281,7 @@ class _$TransferImpl implements _Transfer {
                 other.isOutgoing == isOutgoing));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -292,6 +303,11 @@ class _$TransferImpl implements _Transfer {
   @pragma('vm:prefer-inline')
   _$$TransferImplCopyWith<_$TransferImpl> get copyWith =>
       __$$TransferImplCopyWithImpl<_$TransferImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TransferImplToJson(this);
+  }
 }
 
 abstract class _Transfer implements Transfer {
@@ -306,6 +322,9 @@ abstract class _Transfer implements Transfer {
     required final DateTime date,
     required final bool isOutgoing,
   }) = _$TransferImpl;
+
+  factory _Transfer.fromJson(Map<String, dynamic> json) =
+      _$TransferImpl.fromJson;
 
   @override
   String get id;

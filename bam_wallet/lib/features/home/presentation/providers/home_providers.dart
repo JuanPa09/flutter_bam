@@ -41,8 +41,18 @@ class HomeNotifier extends StateNotifier<HomeState> {
       final accounts = await _getAccountsUseCase();
       final transfers = await _getTransfersUseCase();
       state = HomeState.loaded(accounts: accounts, transfers: transfers);
-    } catch (e) {
-      state = HomeState.error(e.toString());
+    } catch (e, stackTrace) {
+      print('Error loading home data: $e');
+      print('Stack trace: $stackTrace');
+
+      String errorMessage = 'Error desconocido';
+      if (e is Exception) {
+        errorMessage = e.toString().replaceAll('Exception: ', '');
+      } else if (e != null) {
+        errorMessage = e.toString();
+      }
+
+      state = HomeState.error(errorMessage);
     }
   }
 

@@ -1,15 +1,22 @@
-import 'package:bam_wallet/features/home/data/data_sources/home_data_source.dart';
-import 'package:bam_wallet/features/home/data/data_sources/home_local_data_source.dart';
+import 'package:bam_wallet/features/home/data/data_sources/firebase_bank_account_data_source.dart';
+import 'package:bam_wallet/features/home/data/data_sources/bank_account_data_source.dart';
 import 'package:bam_wallet/features/home/data/repositories/home_repository_impl.dart';
 import 'package:bam_wallet/features/home/domain/repositories/home_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Único archivo que conoce las implementaciones concretas de Data.
-/// Expone abstracciones hacia arriba para que Presentation nunca dependa de Data.
-final homeDataSourceProvider = Provider<HomeDataSource>((ref) {
-  return HomeLocalDataSource();
+/// Inyección de dependencias para el módulo Home.
+/// Expone abstracciones (HomeRepository) hacia arriba.
+final firebaseBankAccountDataSourceProvider = Provider<BankAccountDataSource>((
+  ref,
+) {
+  return FirebaseBankAccountDataSource(firestore: FirebaseFirestore.instance);
 });
 
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
-  return HomeRepositoryImpl(dataSource: ref.watch(homeDataSourceProvider));
+  return HomeRepositoryImpl(
+    firebaseBankAccountDataSource: ref.watch(
+      firebaseBankAccountDataSourceProvider,
+    ),
+  );
 });

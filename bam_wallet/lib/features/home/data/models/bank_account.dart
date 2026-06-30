@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'bank_account.freezed.dart';
+part 'bank_account.g.dart';
 
 @freezed
 class BankAccount with _$BankAccount {
@@ -13,4 +14,7 @@ class BankAccount with _$BankAccount {
     required String currency,
     required String status,
   }) = _BankAccount;
+
+  factory BankAccount.fromJson(Map<String, Object?> json) =>
+      _$BankAccountFromJson(json);
 }

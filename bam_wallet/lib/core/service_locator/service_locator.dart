@@ -8,6 +8,9 @@ import 'package:bam_wallet/features/login/data/data_sources/remote_authenticatio
 import 'package:bam_wallet/features/login/data/data_sources/local_authentication_data_source.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:bam_wallet/core/network/dio_interceptor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bam_wallet/features/home/data/data_sources/firebase_bank_account_data_source.dart';
+import 'package:bam_wallet/features/home/data/repositories/home_repository_impl.dart';
 
 class ServiceLocator {
   static final ServiceLocator _instance = ServiceLocator._internal();
@@ -20,6 +23,7 @@ class ServiceLocator {
 
   late dio.Dio _dioClient;
   late LoginProvider _loginProvider;
+  late HomeRepositoryImpl _homeRepository;
 
   Future<void> setup(String environment) async {
     // Dio Client
@@ -48,6 +52,17 @@ class ServiceLocator {
       authenticationRepository: authenticationRepository,
     );
 
+    // Firebase
+    final firebaseFirestore = FirebaseFirestore.instance;
+    final firebaseBankAccountDataSource = FirebaseBankAccountDataSource(
+      firestore: firebaseFirestore,
+    );
+
+    // Home Repository
+    _homeRepository = HomeRepositoryImpl(
+      firebaseBankAccountDataSource: firebaseBankAccountDataSource,
+    );
+
     // Provider
     _loginProvider = LoginProvider(
       loginUseCase: loginUseCase,
@@ -60,5 +75,5 @@ class ServiceLocator {
   }
 
   LoginProvider get loginProvider => _loginProvider;
+  HomeRepositoryImpl get homeRepository => _homeRepository;
 }
-
