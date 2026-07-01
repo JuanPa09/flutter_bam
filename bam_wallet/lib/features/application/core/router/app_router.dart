@@ -66,21 +66,17 @@ class AuthRouterListener extends ConsumerWidget {
     ref.listen(authStateProvider, (previous, next) {
       next.whenOrNull(
         authenticated: (user) {
-          // Redirigir a home cuando se autentica
-          if (context.mounted) {
-            final currentLocation = GoRouterState.of(context).uri.toString();
-            if (currentLocation == '/login') {
-              AppRouter.router.go('/home');
-            }
+          final currentLocation =
+              AppRouter.router.routerDelegate.currentConfiguration.uri.toString();
+          if (currentLocation == '/login') {
+            AppRouter.router.go('/home');
           }
         },
         unauthenticated: () {
-          // Redirigir a login cuando se desautentica
-          if (context.mounted) {
-            final currentLocation = GoRouterState.of(context).uri.toString();
-            if (currentLocation != '/login') {
-              AppRouter.router.go('/login');
-            }
+          final currentLocation =
+              AppRouter.router.routerDelegate.currentConfiguration.uri.toString();
+          if (currentLocation != '/login') {
+            AppRouter.router.go('/login');
           }
         },
       );

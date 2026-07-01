@@ -10,17 +10,10 @@ class LoginUseCase {
       : _authenticationRepository = authenticationRepository ?? AuthenticationRepositoryImpl();
 
   Future<User> call(String username, String password) async {
-    final user = await _authenticationRepository.signIUpWithUsernameAndPassword(
+    return await _authenticationRepository.signIUpWithUsernameAndPassword(
       username: username,
       password: password,
     );
-
-    await _authenticationRepository.saveSession(
-      user.accessToken
-    );
-
-    return user;
-
   }
 
 }

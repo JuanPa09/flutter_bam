@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:bam_wallet/features/loginV2/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/features/login/presentation/widgets/email_widget.dart';
@@ -54,11 +53,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return null;
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState?.validate() ?? false) {
-      ref
+      await ref
           .read(authStateProvider.notifier)
-          .login(_emailController.text.trim(), _passwordController.text);
+          .login(_emailController.text.trim(), _passwordController.text)
+          .catchError((_) {});
     }
   }
 
@@ -96,180 +96,89 @@ class _LoginViewState extends ConsumerState<LoginView> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
 
+    final showSpinner = authState.maybeWhen(
+      initial: () => true,
+      authenticated: (_) => true,
+      orElse: () => false,
+    );
+
+    if (showSpinner) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    final isLoading = authState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
+    final errorKey = authState.maybeWhen(
+      error: (msg) => msg,
+      orElse: () => null,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.loginScreenName),
         centerTitle: true,
       ),
-      body: authState.when(
-        authenticated: (_) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (context.mounted) context.go('/home');
-          });
-          return const Center(child: CircularProgressIndicator());
-        },
-        loading: () => SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 40),
-                Text(
-                  AppLocalizations.of(context)!.appTitle,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 40),
+              Text(
+                AppLocalizations.of(context)!.appTitle,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  AppLocalizations.of(context)!.login_instructions,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                AppLocalizations.of(context)!.login_instructions,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 48),
+              EmailWidget(controller: _emailController),
+              const SizedBox(height: 16),
+              PasswordWidget(
+                controller: _passwordController,
+                validator: _validatePassword,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: isLoading ? null : _handleLogin,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                const SizedBox(height: 48),
-                EmailWidget(controller: _emailController),
+                child: isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(AppLocalizations.of(context)!.btn_login),
+              ),
+              if (errorKey != null) ...[
                 const SizedBox(height: 16),
-                PasswordWidget(
-                  controller: _passwordController,
-                  validator: _validatePassword,
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Center(
-                  child: Text(
-                    'Para probar: \n\n emilys \n emilyspass',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  _getLocalizedErrorMessage(errorKey),
+                  style: TextStyle(color: Colors.red.shade700, fontSize: 13),
+                  textAlign: TextAlign.center,
                 ),
               ],
-            ),
-          ),
-        ),
-        initial: () => const Center(child: SizedBox.shrink()),
-        unauthenticated: () => SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 40),
-                Text(
-                  AppLocalizations.of(context)!.appTitle,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              const SizedBox(height: 24),
+              Center(
+                child: Text(
+                  'Para probar: \n\n emilys \n emilyspass',
+                  style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  AppLocalizations.of(context)!.login_instructions,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 48),
-                EmailWidget(controller: _emailController),
-                const SizedBox(height: 16),
-                PasswordWidget(
-                  controller: _passwordController,
-                  validator: _validatePassword,
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(AppLocalizations.of(context)!.btn_login),
-                ),
-                const SizedBox(height: 24),
-                Center(
-                  child: Text(
-                    'Para probar: \n\n emilys \n emilyspass',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        error: (message) => SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 40),
-                Text(
-                  AppLocalizations.of(context)!.appTitle,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  AppLocalizations.of(context)!.login_instructions,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 48),
-                EmailWidget(controller: _emailController),
-                const SizedBox(height: 16),
-                PasswordWidget(
-                  controller: _passwordController,
-                  validator: _validatePassword,
-                ),
-                const SizedBox(height: 16),
-                // Error message - small and compact
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.red.shade100,
-                    border: Border.all(color: Colors.red.shade400),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    _getLocalizedErrorMessage(message),
-                    style: TextStyle(color: Colors.red.shade900, fontSize: 13),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(AppLocalizations.of(context)!.btn_login),
-                ),
-                const SizedBox(height: 24),
-                Center(
-                  child: Text(
-                    'Para probar: \n\n emilys \n emilyspass',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

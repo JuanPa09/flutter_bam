@@ -5,17 +5,21 @@ import 'package:bam_wallet/features/application/core/router/app_router.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:async';
 
 void main() {
-  runProject();
-}
-
-void runProject() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await LocalStorage().init();
-  await Env.initialize();
-  await ServiceLocator().setup('real'); //options: mock, real
-  runApp(ProviderScope(child: MyApp()));
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await LocalStorage().init();
+      await Env.initialize();
+      await ServiceLocator().setup('real');
+      runApp(ProviderScope(child: MyApp()));
+    },
+    (error, stack) {
+      debugPrint('Unhandled error: $error');
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
