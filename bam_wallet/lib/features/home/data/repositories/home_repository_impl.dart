@@ -3,6 +3,7 @@ import 'package:bam_wallet/features/home/data/models/bank_account_model.dart';
 import 'package:bam_wallet/features/home/data/models/transfer_model.dart';
 import 'package:bam_wallet/features/home/domain/entities/bank_account_entity.dart';
 import 'package:bam_wallet/features/home/domain/entities/transfer_entity.dart';
+import 'package:bam_wallet/features/home/domain/entities/transfer_page_entity.dart';
 import 'package:bam_wallet/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -20,6 +21,22 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<List<Transfer>> getTransfers() async {
     final models = await firebaseBankAccountDataSource.getAllTransfers();
     return models.map(_toTransferEntity).toList();
+  }
+
+  @override
+  Future<TransferPage> getTransfersPage({
+    String? afterId,
+    int limit = 10,
+  }) async {
+    final result = await firebaseBankAccountDataSource.getTransfersPage(
+      afterDocumentId: afterId,
+      limit: limit,
+    );
+    return TransferPage(
+      items: result.items.map(_toTransferEntity).toList(),
+      hasMore: result.hasMore,
+      lastId: result.lastId,
+    );
   }
 
   @override

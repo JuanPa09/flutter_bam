@@ -3,6 +3,8 @@ import 'package:bam_wallet/features/home/data/models/transfer_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bam_wallet/features/home/data/data_sources/bank_account_data_source.dart';
 
+const String _kCollection = 'history_accounts';
+
 class FirebaseBankAccountDataSource implements BankAccountDataSource {
   final FirebaseFirestore _firestore;
 
@@ -36,7 +38,7 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
   Future<List<TransferModel>> getAllTransfers() async {
     try {
       final querySnapshot = await _firestore
-          .collection('history_accounts')
+          .collection(_kCollection)
           .get();
 
       final transfers = querySnapshot.docs.map((doc) {
@@ -67,4 +69,47 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
       throw Exception(errorMsg);
     }
   }
-}
+  @override
+  Future<TransferPageResult> getTransfersPage({
+    String? afterDocumentId,
+    int limit = 10,
+  }) async {
+    try {
+      Query<Map<String, dynamic>> query = _firestore
+          .collection(_kCollection)
+          .orderBy('date', descending: true)
+          .limit(limit + 1);
+
+      if (afterDocumentId != null) {
+        final cursor = await _firestore
+            .collection(_kCollection)
+            .doc(afterDocumentId)
+            .get();
+        if (cursor.exists) query = query.startAfterDocument(cursor);
+      }
+
+      final snapshot = await query.get();
+      final hasMore = snapshot.docs.length > limit;
+      final docs =
+          hasMore ? snapshot.docs.take(limit).toList() : snapshot.docs;
+
+      final items = docs.map((doc) {
+        final data = Map<String, dynamic>.from(doc.data());
+        if (data['date'] is Timestamp) {
+          data['date'] =
+              (data['date'] as Timestamp).toDate().toIso8601String();
+        }
+        return TransferModel.fromJson(data);
+      }).toList();
+
+      return (
+        items: items,
+        hasMore: hasMore,
+        lastId: docs.isNotEmpty ? docs.last.id : null,
+      );
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase Error (${e.code}): ${e.message}');
+    } catch (e) {
+      throw Exception('Error al obtener página de transferencias: $e');
+    }
+  }}

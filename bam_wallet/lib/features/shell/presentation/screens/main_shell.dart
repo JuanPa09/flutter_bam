@@ -1,8 +1,11 @@
+import 'package:bam_wallet/core/notifications/presentation/providers/notification_providers.dart';
+import 'package:bam_wallet/features/login/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class MainShell extends StatelessWidget {
+class MainShell extends ConsumerWidget {
   final Widget child;
 
   const MainShell({super.key, required this.child});
@@ -14,7 +17,23 @@ class MainShell extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Inicializar FCM cuando el usuario está autenticado
+    final user = ref.watch(authStateProvider).whenOrNull(
+          authenticated: (user) => user,
+        );
+    if (user != null) {
+      ref.watch(fcmTokenProvider(user.id));
+    }
+
+    ref.listen(foregroundNotificationProvider, (_, next) {
+      next.whenData((n) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${n.title}: ${n.body}')),
+        );
+      });
+    });
+
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: child,

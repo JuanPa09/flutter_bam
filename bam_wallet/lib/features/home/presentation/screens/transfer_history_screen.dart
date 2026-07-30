@@ -1,20 +1,47 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
 import 'package:bam_wallet/features/home/domain/entities/transfer_entity.dart';
-import 'package:bam_wallet/features/home/presentation/providers/home_providers.dart';
+import 'package:bam_wallet/features/home/presentation/providers/transfer_history_providers.dart';
+import 'package:bam_wallet/features/home/presentation/state/transfer_history_state.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class TransferHistoryScreen extends ConsumerWidget {
+class TransferHistoryScreen extends ConsumerStatefulWidget {
   const TransferHistoryScreen({super.key});
 
+  @override
+  ConsumerState<TransferHistoryScreen> createState() =>
+      _TransferHistoryScreenState();
+}
+
+class _TransferHistoryScreenState extends ConsumerState<TransferHistoryScreen> {
   static final _dateFormat = DateFormat('d/MM/yyyy HH:mm');
+  final _scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final transfers = ref.watch(homeTransfersProvider);
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref.read(transferHistoryProvider.notifier).loadMore();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(transferHistoryProvider);
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -25,18 +52,70 @@ class TransferHistoryScreen extends ConsumerWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: transfers.length,
-        itemBuilder: (context, index) {
-          final t = transfers[index];
-          return _TransferTile(
-            transfer: t,
-            dateFormat: _dateFormat,
-            sentTo: l10n.transfer_sent_to,
-            receivedFrom: l10n.transfer_received_from,
+      body: state.when(
+        initial: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        loaded: (transfers, hasMore, isLoadingMore, lastId) => _buildList(
+          context,
+          transfers: transfers,
+          hasMore: hasMore,
+          l10n: l10n,
+        ),
+        error: (message) => _ErrorView(
+          message: message,
+          onRetry: () =>
+              ref.read(transferHistoryProvider.notifier).loadFirstPage(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildList(
+    BuildContext context, {
+    required List<Transfer> transfers,
+    required bool hasMore,
+    required AppLocalizations l10n,
+  }) {
+    final itemCount = transfers.length + (hasMore ? 1 : 0);
+
+    return ListView.builder(
+      controller: _scrollController,
+      padding: const EdgeInsets.all(16),
+      itemCount: itemCount,
+      itemBuilder: (context, index) {
+        if (index == transfers.length) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Center(child: CircularProgressIndicator()),
           );
-        },
+        }
+        return _TransferTile(
+          transfer: transfers[index],
+          dateFormat: _dateFormat,
+          sentTo: l10n.transfer_sent_to,
+          receivedFrom: l10n.transfer_received_from,
+        );
+      },
+    );
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+
+  const _ErrorView({required this.message, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(message, textAlign: TextAlign.center),
+          const SizedBox(height: 16),
+          ElevatedButton(onPressed: onRetry, child: const Text('Reintentar')),
+        ],
       ),
     );
   }
