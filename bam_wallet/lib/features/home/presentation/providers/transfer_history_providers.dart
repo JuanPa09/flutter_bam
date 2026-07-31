@@ -7,13 +7,12 @@ final getTransfersPageUseCaseProvider = Provider((ref) {
   return GetTransfersPageUseCase(repository: ref.watch(homeRepositoryProvider));
 });
 
-class TransferHistoryNotifier
-    extends StateNotifier<TransferHistoryState> {
+class TransferHistoryNotifier extends StateNotifier<TransferHistoryState> {
   final GetTransfersPageUseCase _useCase;
   static const int _pageSize = 10;
 
   TransferHistoryNotifier(this._useCase)
-      : super(const TransferHistoryState.initial()) {
+    : super(const TransferHistoryState.initial()) {
     loadFirstPage();
   }
 
@@ -71,7 +70,12 @@ class TransferHistoryNotifier
   }
 }
 
-final transferHistoryProvider = StateNotifierProvider.autoDispose<
-    TransferHistoryNotifier, TransferHistoryState>((ref) {
-  return TransferHistoryNotifier(ref.watch(getTransfersPageUseCaseProvider));
-});
+final transferHistoryProvider =
+    StateNotifierProvider.autoDispose<
+      TransferHistoryNotifier,
+      TransferHistoryState
+    >((ref) {
+      return TransferHistoryNotifier(
+        ref.watch(getTransfersPageUseCaseProvider),
+      );
+    });

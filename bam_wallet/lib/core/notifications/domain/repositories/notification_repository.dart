@@ -7,5 +7,11 @@ abstract class NotificationRepository {
     required String userId,
     required String token,
   });
+  Future<void> sendNotification({
+    required String userId,
+    required String title,
+    required String body,
+    Map<String, String>? data,
+  });
   Stream<NotificationEntity> get onForegroundNotification;
 }

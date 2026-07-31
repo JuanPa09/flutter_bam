@@ -11,8 +11,8 @@ class FirebaseNotificationDataSource implements NotificationDataSource {
   FirebaseNotificationDataSource({
     FirebaseMessaging? messaging,
     FirebaseFirestore? firestore,
-  })  : _messaging = messaging ?? FirebaseMessaging.instance,
-        _firestore = firestore ?? FirebaseFirestore.instance;
+  }) : _messaging = messaging ?? FirebaseMessaging.instance,
+       _firestore = firestore ?? FirebaseFirestore.instance;
 
   @override
   Future<bool> requestPermission() async {
@@ -46,10 +46,37 @@ class FirebaseNotificationDataSource implements NotificationDataSource {
         .doc(userId)
         .collection('fcm_tokens')
         .doc(token)
-        .set({
-      'token': token,
-      'updatedAt': FieldValue.serverTimestamp(),
-    });
+        .set({'token': token, 'updatedAt': FieldValue.serverTimestamp()});
+  }
+
+  @override
+  Future<void> sendNotification({
+    required String userId,
+    required String title,
+    required String body,
+    Map<String, String>? data,
+  }) async {
+    try {
+      print('[NOTIFICATION] Sending notification to user: $userId');
+      print('[NOTIFICATION] Title: $title');
+      print('[NOTIFICATION] Body: $body');
+
+      // Guardar evento de notificación en Firestore
+      // Una Cloud Function escuchará esta colección y enviará la notificación
+      final docRef = await _firestore.collection('notification_events').add({
+        'userId': userId,
+        'title': title,
+        'body': body,
+        'data': data ?? {},
+        'createdAt': FieldValue.serverTimestamp(),
+        'sent': false,
+      });
+
+      print('[NOTIFICATION] ✅ Document saved to Firestore: ${docRef.id}');
+    } catch (e) {
+      print('[NOTIFICATION] ❌ Error: $e');
+      throw Exception('Error sending notification: $e');
+    }
   }
 
   @override

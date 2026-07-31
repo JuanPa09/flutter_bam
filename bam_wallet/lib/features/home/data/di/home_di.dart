@@ -1,3 +1,4 @@
+import 'package:bam_wallet/core/notifications/data/di/notification_di.dart';
 import 'package:bam_wallet/features/home/data/data_sources/firebase_bank_account_data_source.dart';
 import 'package:bam_wallet/features/home/data/data_sources/bank_account_data_source.dart';
 import 'package:bam_wallet/features/home/data/repositories/home_repository_impl.dart';
@@ -18,5 +19,6 @@ final homeRepositoryProvider = Provider<HomeRepository>((ref) {
     firebaseBankAccountDataSource: ref.watch(
       firebaseBankAccountDataSourceProvider,
     ),
+    notificationRepository: ref.watch(notificationRepositoryProvider),
   );
 });

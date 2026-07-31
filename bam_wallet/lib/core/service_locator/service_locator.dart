@@ -6,6 +6,8 @@ import 'package:bam_wallet/features/login/domain/use_cases/get_user_use_case.dar
 import 'package:bam_wallet/features/login/data/repositories/authentication_repository_impl.dart';
 import 'package:bam_wallet/features/login/data/data_sources/firebase_login_data_source.dart';
 import 'package:bam_wallet/features/login/data/data_sources/local_authentication_data_source.dart';
+import 'package:bam_wallet/core/notifications/data/data_sources/firebase_notification_data_source.dart';
+import 'package:bam_wallet/core/notifications/data/repositories/notification_repository_impl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bam_wallet/features/home/data/data_sources/firebase_bank_account_data_source.dart';
@@ -54,9 +56,16 @@ class ServiceLocator {
       firestore: firebaseFirestore,
     );
 
+    // Notification Repository
+    final firebaseNotificationDataSource = FirebaseNotificationDataSource();
+    final notificationRepository = NotificationRepositoryImpl(
+      dataSource: firebaseNotificationDataSource,
+    );
+
     // Home Repository
     _homeRepository = HomeRepositoryImpl(
       firebaseBankAccountDataSource: firebaseBankAccountDataSource,
+      notificationRepository: notificationRepository,
     );
 
     // Provider

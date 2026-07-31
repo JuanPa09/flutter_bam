@@ -1,3 +1,4 @@
+import 'package:bam_wallet/core/notifications/domain/repositories/notification_repository.dart';
 import 'package:bam_wallet/features/home/data/data_sources/bank_account_data_source.dart';
 import 'package:bam_wallet/features/home/data/models/bank_account_model.dart';
 import 'package:bam_wallet/features/home/data/models/transfer_model.dart';
@@ -8,8 +9,12 @@ import 'package:bam_wallet/features/home/domain/repositories/home_repository.dar
 
 class HomeRepositoryImpl implements HomeRepository {
   final BankAccountDataSource firebaseBankAccountDataSource;
+  final NotificationRepository notificationRepository;
 
-  HomeRepositoryImpl({required this.firebaseBankAccountDataSource});
+  HomeRepositoryImpl({
+    required this.firebaseBankAccountDataSource,
+    required this.notificationRepository,
+  });
 
   @override
   Future<List<BankAccount>> getAccounts() async {
@@ -44,6 +49,7 @@ class HomeRepositoryImpl implements HomeRepository {
     required String fromAccountNumber,
     required String toAccountNumber,
     required double amount,
+    required String userId,
   }) async {
     if (amount <= 0) {
       throw Exception('Amount must be greater than zero');
@@ -86,7 +92,24 @@ class HomeRepositoryImpl implements HomeRepository {
         accountNumber: fromAccountNumber,
         newBalance: newBalance,
       );
+
+      // Enviar notificación push
+      print('[TRANSFER] About to send notification for user: $userId');
+      await notificationRepository.sendNotification(
+        userId: userId,
+        title: 'Transferencia Realizada',
+        body:
+            'Se transfirieron $amount ${transfer.currency} a $toAccountNumber',
+        data: {
+          'type': 'transfer',
+          'transferId': transfer.id,
+          'amount': amount.toString(),
+          'toAccount': toAccountNumber,
+        },
+      );
+      print('[TRANSFER] ✅ Transfer completed with notification');
     } catch (e) {
+      print('[TRANSFER] ❌ Error during transfer: $e');
       throw Exception('Error making transfer: $e');
     }
   }

@@ -7,6 +7,12 @@ interface class NotificationDataSource {
     required String userId,
     required String token,
   }) async {}
+  Future<void> sendNotification({
+    required String userId,
+    required String title,
+    required String body,
+    Map<String, String>? data,
+  }) async {}
   Stream<NotificationEntity> get onForegroundNotification =>
       const Stream.empty();
 }

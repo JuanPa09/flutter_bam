@@ -9,11 +9,13 @@ class MakeTransferUseCase {
     required String fromAccountNumber,
     required String toAccountNumber,
     required double amount,
+    required String userId,
   }) async {
     return repository.makeTransfer(
       fromAccountNumber: fromAccountNumber,
       toAccountNumber: toAccountNumber,
       amount: amount,
+      userId: userId,
     );
   }
 }

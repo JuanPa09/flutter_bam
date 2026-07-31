@@ -6,7 +6,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
   final NotificationDataSource _dataSource;
 
   NotificationRepositoryImpl({required NotificationDataSource dataSource})
-      : _dataSource = dataSource;
+    : _dataSource = dataSource;
 
   @override
   Future<bool> requestPermission() => _dataSource.requestPermission();
@@ -19,6 +19,21 @@ class NotificationRepositoryImpl implements NotificationRepository {
     required String userId,
     required String token,
   }) => _dataSource.saveTokenToFirestore(userId: userId, token: token);
+
+  @override
+  Future<void> sendNotification({
+    required String userId,
+    required String title,
+    required String body,
+    Map<String, String>? data,
+  }) async {
+    return _dataSource.sendNotification(
+      userId: userId,
+      title: title,
+      body: body,
+      data: data,
+    );
+  }
 
   @override
   Stream<NotificationEntity> get onForegroundNotification =>

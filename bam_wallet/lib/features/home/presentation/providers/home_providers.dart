@@ -48,7 +48,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
       String errorMessage = 'Error desconocido';
       if (e is Exception) {
         errorMessage = e.toString().replaceAll('Exception: ', '');
-      } else if (e != null) {
+      } else {
         errorMessage = e.toString();
       }
 

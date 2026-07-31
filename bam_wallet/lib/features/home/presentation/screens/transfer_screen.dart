@@ -1,6 +1,7 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
 import 'package:bam_wallet/features/home/domain/entities/bank_account_entity.dart';
 import 'package:bam_wallet/features/home/presentation/providers/home_providers.dart';
+import 'package:bam_wallet/features/login/presentation/providers/auth_providers.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,6 +71,17 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
       return;
     }
 
+    // Obtener el userId del estado de autenticación
+    final authState = ref.read(authStateProvider);
+    final userId = authState.whenOrNull(authenticated: (user) => user.id);
+
+    if (userId == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Usuario no autenticado')));
+      return;
+    }
+
     setState(() => _isLoading = true);
     try {
       await ref
@@ -78,6 +90,7 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
             fromAccountNumber: _selectedAccount!.accountNumber,
             toAccountNumber: destination,
             amount: amount,
+            userId: userId,
           );
       if (mounted) {
         ref.read(homeStateProvider.notifier).refresh();

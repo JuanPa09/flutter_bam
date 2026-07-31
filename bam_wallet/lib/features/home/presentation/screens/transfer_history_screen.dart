@@ -1,7 +1,6 @@
 import 'package:bam_wallet/core/utils/currency_format.dart';
 import 'package:bam_wallet/features/home/domain/entities/transfer_entity.dart';
 import 'package:bam_wallet/features/home/presentation/providers/transfer_history_providers.dart';
-import 'package:bam_wallet/features/home/presentation/state/transfer_history_state.dart';
 import 'package:bam_wallet/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +33,7 @@ class _TransferHistoryScreenState extends ConsumerState<TransferHistoryScreen> {
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+        _scrollController.position.maxScrollExtent - 300) {
       ref.read(transferHistoryProvider.notifier).loadMore();
     }
   }
@@ -59,6 +58,7 @@ class _TransferHistoryScreenState extends ConsumerState<TransferHistoryScreen> {
           context,
           transfers: transfers,
           hasMore: hasMore,
+          isLoadingMore: isLoadingMore,
           l10n: l10n,
         ),
         error: (message) => _ErrorView(
@@ -74,6 +74,7 @@ class _TransferHistoryScreenState extends ConsumerState<TransferHistoryScreen> {
     BuildContext context, {
     required List<Transfer> transfers,
     required bool hasMore,
+    required bool isLoadingMore,
     required AppLocalizations l10n,
   }) {
     final itemCount = transfers.length + (hasMore ? 1 : 0);
@@ -83,11 +84,46 @@ class _TransferHistoryScreenState extends ConsumerState<TransferHistoryScreen> {
       padding: const EdgeInsets.all(16),
       itemCount: itemCount,
       itemBuilder: (context, index) {
+        // Item de carga o fin de paginación
         if (index == transfers.length) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: CircularProgressIndicator()),
-          );
+          if (hasMore) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Cargando más...',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            // Fin de paginación
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.check_circle, color: Colors.grey[400], size: 40),
+                    const SizedBox(height: 8),
+                    Text(
+                      'No hay más transferencias',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
         }
         return _TransferTile(
           transfer: transfers[index],
