@@ -37,9 +37,7 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
   @override
   Future<List<TransferModel>> getAllTransfers() async {
     try {
-      final querySnapshot = await _firestore
-          .collection(_kCollection)
-          .get();
+      final querySnapshot = await _firestore.collection(_kCollection).get();
 
       final transfers = querySnapshot.docs.map((doc) {
         try {
@@ -69,6 +67,7 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
       throw Exception(errorMsg);
     }
   }
+
   @override
   Future<TransferPageResult> getTransfersPage({
     String? afterDocumentId,
@@ -90,14 +89,12 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
 
       final snapshot = await query.get();
       final hasMore = snapshot.docs.length > limit;
-      final docs =
-          hasMore ? snapshot.docs.take(limit).toList() : snapshot.docs;
+      final docs = hasMore ? snapshot.docs.take(limit).toList() : snapshot.docs;
 
       final items = docs.map((doc) {
         final data = Map<String, dynamic>.from(doc.data());
         if (data['date'] is Timestamp) {
-          data['date'] =
-              (data['date'] as Timestamp).toDate().toIso8601String();
+          data['date'] = (data['date'] as Timestamp).toDate().toIso8601String();
         }
         return TransferModel.fromJson(data);
       }).toList();
@@ -112,4 +109,46 @@ class FirebaseBankAccountDataSource implements BankAccountDataSource {
     } catch (e) {
       throw Exception('Error al obtener página de transferencias: $e');
     }
-  }}
+  }
+
+  @override
+  Future<void> saveTransfer(TransferModel transfer) async {
+    try {
+      await _firestore
+          .collection(_kCollection)
+          .doc(transfer.id)
+          .set(transfer.toJson());
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase Error (${e.code}): ${e.message}');
+    } catch (e) {
+      throw Exception('Error al guardar transferencia: $e');
+    }
+  }
+
+  @override
+  Future<void> updateAccountBalance({
+    required String accountNumber,
+    required double newBalance,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('accounts')
+          .where('accountNumber', isEqualTo: accountNumber)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        throw Exception('Account not found');
+      }
+
+      // Obtener el documento de la cuenta
+      final accountDoc = querySnapshot.docs.first;
+
+      // Actualizar el balance
+      await accountDoc.reference.update({'balance': newBalance});
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase Error (${e.code}): ${e.message}');
+    } catch (e) {
+      throw Exception('Error al actualizar balance: $e');
+    }
+  }
+}

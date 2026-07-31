@@ -48,6 +48,47 @@ class HomeRepositoryImpl implements HomeRepository {
     if (amount <= 0) {
       throw Exception('Amount must be greater than zero');
     }
+
+    try {
+      // Obtener cuentas de origen
+      final allAccounts = await firebaseBankAccountDataSource.getAllAccounts();
+
+      final fromAccount = allAccounts.firstWhere(
+        (account) => account.accountNumber == fromAccountNumber,
+        orElse: () => throw Exception('Source account not found'),
+      );
+
+      // Validar saldo
+      if (fromAccount.balance < amount) {
+        throw Exception('Insufficient balance');
+      }
+
+      // Crear modelo de transferencia (sin validar cuenta destino)
+      final transfer = TransferModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        fromAccountNumber: fromAccountNumber,
+        toAccountNumber: toAccountNumber,
+        fromHolder: fromAccount.holderName,
+        toHolder:
+            toAccountNumber, // Usar el número de cuenta como nombre del titular
+        amount: amount,
+        currency: fromAccount.currency,
+        date: DateTime.now(),
+        isOutgoing: true,
+      );
+
+      // Guardar la transferencia
+      await firebaseBankAccountDataSource.saveTransfer(transfer);
+
+      // Actualizar el balance de la cuenta origen
+      final newBalance = fromAccount.balance - amount;
+      await firebaseBankAccountDataSource.updateAccountBalance(
+        accountNumber: fromAccountNumber,
+        newBalance: newBalance,
+      );
+    } catch (e) {
+      throw Exception('Error making transfer: $e');
+    }
   }
 
   BankAccount _toAccountEntity(BankAccountModel model) => BankAccount(

@@ -24,4 +24,15 @@ interface class BankAccountDataSource {
   }) async {
     return (items: <TransferModel>[], hasMore: false, lastId: null);
   }
+
+  Future<void> saveTransfer(TransferModel transfer) async {
+    throw UnimplementedError('saveTransfer not implemented');
+  }
+
+  Future<void> updateAccountBalance({
+    required String accountNumber,
+    required double newBalance,
+  }) async {
+    throw UnimplementedError('updateAccountBalance not implemented');
+  }
 }
