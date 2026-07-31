@@ -66,6 +66,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
   String _getLocalizedErrorMessage(String errorKey) {
     final l10n = AppLocalizations.of(context)!;
     switch (errorKey) {
+      // Firebase errors
+      case 'error_firebase_invalid_credentials':
+        return l10n.error_firebase_invalid_credentials;
+      case 'error_firebase_user_not_found':
+        return l10n.error_firebase_user_not_found;
+      case 'error_firebase_wrong_password':
+        return l10n.error_firebase_wrong_password;
+      // Legacy errors
       case 'error_invalid_credentials_400':
         return l10n.error_invalid_credentials_400;
       case 'error_unauthorized_401':
@@ -86,6 +94,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
         return l10n.error_request_cancelled;
       case 'error_network_unknown':
         return l10n.error_network_unknown;
+      case 'invalid_mail':
+        return l10n.invalid_mail;
       case 'error_unexpected':
       default:
         return l10n.error_unexpected;

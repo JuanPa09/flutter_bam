@@ -1,17 +1,23 @@
 import 'package:bam_wallet/features/login/data/data_sources/local_authentication_data_source.dart';
-import 'package:bam_wallet/features/login/data/data_sources/remote_authentication_data_source.dart';
+import 'package:bam_wallet/features/login/data/data_sources/firebase_login_data_source.dart';
 import 'package:bam_wallet/features/login/data/repositories/authentication_repository_impl.dart';
 import 'package:bam_wallet/features/login/domain/repositories/authentication_repository.dart';
-import 'package:dio/dio.dart' as dio;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final dioProvider = Provider<dio.Dio>((ref) => dio.Dio());
+final firebaseAuthProvider = Provider<FirebaseAuth>(
+  (ref) => FirebaseAuth.instance,
+);
 
-final remoteAuthDataSourceProvider = Provider<RemoteAuthenticationDataSource>((ref) {
-  return RemoteAuthenticationDataSource(dio: ref.watch(dioProvider));
+final firebaseLoginDataSourceProvider = Provider<FirebaseLoginDataSource>((
+  ref,
+) {
+  return FirebaseLoginDataSource(firebaseAuth: ref.watch(firebaseAuthProvider));
 });
 
-final localAuthDataSourceProvider = Provider<LocalAuthenticationDataSource>((ref) {
+final localAuthDataSourceProvider = Provider<LocalAuthenticationDataSource>((
+  ref,
+) {
   return LocalAuthenticationDataSource();
 });
 
@@ -19,7 +25,7 @@ final localAuthDataSourceProvider = Provider<LocalAuthenticationDataSource>((ref
 /// never depend on the concrete implementation.
 final authRepositoryProvider = Provider<AuthenticationRepository>((ref) {
   return AuthenticationRepositoryImpl(
-    remoteAuthenticationDataSource: ref.watch(remoteAuthDataSourceProvider),
+    loginDataSource: ref.watch(firebaseLoginDataSourceProvider),
     localAuthenticationDataSource: ref.watch(localAuthDataSourceProvider),
   );
 });

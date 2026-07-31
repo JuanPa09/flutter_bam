@@ -51,7 +51,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get password_required => 'Debe ingresar contraseña';
 
   @override
-  String get invalid_password => 'La contraseña debe tener al menos 6 caracteres';
+  String get invalid_password =>
+      'La contraseña debe tener al menos 6 caracteres';
 
   @override
   String get btn_login => 'Entrar';
@@ -160,40 +161,50 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_coming_soon => 'Próximamente';
 
   @override
-  String get error_invalid_credentials_400 => 'Credenciales inválidas. Por favor verifica tu usuario y contraseña.';
+  String get error_invalid_credentials_400 =>
+      'Credenciales inválidas. Por favor verifica tu usuario y contraseña.';
 
   @override
-  String get error_unauthorized_401 => 'No autorizado. Las credenciales que proporcionaste son inválidas.';
+  String get error_unauthorized_401 =>
+      'No autorizado. Las credenciales que proporcionaste son inválidas.';
 
   @override
-  String get error_forbidden_403 => 'Acceso prohibido. Tu cuenta puede haber sido suspendida.';
+  String get error_forbidden_403 =>
+      'Acceso prohibido. Tu cuenta puede haber sido suspendida.';
 
   @override
   String get error_user_not_found_404 => 'Usuario no encontrado.';
 
   @override
-  String get error_server_500 => 'Error del servidor. Por favor intenta más tarde.';
+  String get error_server_500 =>
+      'Error del servidor. Por favor intenta más tarde.';
 
   @override
-  String get error_server_generic => 'Error del servidor. Por favor intenta más tarde.';
+  String get error_server_generic =>
+      'Error del servidor. Por favor intenta más tarde.';
 
   @override
-  String get error_connection_timeout => 'Tiempo de conexión agotado. Por favor verifica tu conexión a internet.';
+  String get error_connection_timeout =>
+      'Tiempo de conexión agotado. Por favor verifica tu conexión a internet.';
 
   @override
-  String get error_receive_timeout => 'Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.';
+  String get error_receive_timeout =>
+      'Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.';
 
   @override
-  String get error_send_timeout => 'Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.';
+  String get error_send_timeout =>
+      'Tiempo de solicitud agotado. Por favor verifica tu conexión a internet.';
 
   @override
   String get error_request_cancelled => 'Solicitud cancelada.';
 
   @override
-  String get error_network_unknown => 'Error de red. Por favor verifica tu conexión a internet.';
+  String get error_network_unknown =>
+      'Error de red. Por favor verifica tu conexión a internet.';
 
   @override
-  String get error_unexpected => 'Ocurrió un error. Por favor intenta de nuevo.';
+  String get error_unexpected =>
+      'Ocurrió un error. Por favor intenta de nuevo.';
 
   @override
   String get settings_language => 'Idioma';
@@ -203,4 +214,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings_language_spanish => 'Español';
+
+  @override
+  String get error_firebase_invalid_credentials =>
+      'Correo o contraseña inválidos. Por favor intenta de nuevo.';
+
+  @override
+  String get error_firebase_user_not_found =>
+      'No se encontró una cuenta con este correo.';
+
+  @override
+  String get error_firebase_wrong_password =>
+      'Contraseña incorrecta. Por favor intenta de nuevo.';
 }

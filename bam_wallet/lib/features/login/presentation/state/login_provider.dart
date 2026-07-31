@@ -41,16 +41,24 @@ class LoginProvider extends ChangeNotifier {
       if (isLogged) {
         title = 'Welcome back!';
         logged = true;
-        final user = await _getUserUseCase.call();
-        if (user != null) {
-          _user = user;
+        try {
+          final user = await _getUserUseCase.call();
+          if (user != null) {
+            _user = user;
+          }
+        } catch (e) {
+          // User data may fail to load, but user is still logged in
+          debugPrint('Error loading user data: $e');
+          logged = true;
         }
       } else {
         title = 'Please log in';
         logged = false;
       }
-    } catch (_) {
+    } catch (e) {
+      debugPrint('Error checking logged in status: $e');
       logged = false;
+      title = 'Please log in';
     } finally {
       isInitialized = true;
       notifyListeners();
@@ -77,10 +85,21 @@ class LoginProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       isLoading = false;
-      errorMessage = e.toString().contains('400')
-          ? 'error_invalid_credentials'
-          : e.toString();
-      title = 'Login';
+      final errorStr = e.toString();
+
+      // Extrae el código de error de la excepción
+      // Formato: "Exception: error_code"
+      String errorCode = 'error_unexpected';
+      if (errorStr.contains('Exception: ')) {
+        final parts = errorStr.split('Exception: ');
+        if (parts.length > 1) {
+          errorCode = parts[1].replaceAll(')', '').trim();
+        }
+      }
+
+      // Almacena el código de error para que se traduzca en la UI
+      errorMessage = errorCode;
+      title = 'Login Failed';
       notifyListeners();
       return false;
     }
@@ -93,4 +112,3 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-

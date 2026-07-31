@@ -4,11 +4,10 @@ import 'package:bam_wallet/features/login/domain/use_cases/login_use_case.dart';
 import 'package:bam_wallet/features/login/domain/use_cases/log_out_use_case.dart';
 import 'package:bam_wallet/features/login/domain/use_cases/get_user_use_case.dart';
 import 'package:bam_wallet/features/login/data/repositories/authentication_repository_impl.dart';
-import 'package:bam_wallet/features/login/data/data_sources/remote_authentication_data_source.dart';
+import 'package:bam_wallet/features/login/data/data_sources/firebase_login_data_source.dart';
 import 'package:bam_wallet/features/login/data/data_sources/local_authentication_data_source.dart';
-import 'package:dio/dio.dart' as dio;
-import 'package:bam_wallet/core/network/dio_interceptor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bam_wallet/features/home/data/data_sources/firebase_bank_account_data_source.dart';
 import 'package:bam_wallet/features/home/data/repositories/home_repository_impl.dart';
 
@@ -21,22 +20,19 @@ class ServiceLocator {
 
   ServiceLocator._internal();
 
-  late dio.Dio _dioClient;
   late LoginProvider _loginProvider;
   late HomeRepositoryImpl _homeRepository;
 
   Future<void> setup(String environment) async {
-    // Dio Client
-    _dioClient = dio.Dio();
-    _dioClient.interceptors.add(DioInterceptor(dio: _dioClient));
+    // Firebase Auth initialization
+    final firebaseAuth = FirebaseAuth.instance;
 
-    // Authentication (loginV2)
-    final remoteAuthenticationDataSource = RemoteAuthenticationDataSource(
-      dio: _dioClient,
-    );
     final localAuthenticationDataSource = LocalAuthenticationDataSource();
+    final firebaseLoginDataSource = FirebaseLoginDataSource(
+      firebaseAuth: firebaseAuth,
+    );
     final authenticationRepository = AuthenticationRepositoryImpl(
-      remoteAuthenticationDataSource: remoteAuthenticationDataSource,
+      loginDataSource: firebaseLoginDataSource,
       localAuthenticationDataSource: localAuthenticationDataSource,
     );
 

@@ -2,8 +2,8 @@
 // Maneja notificaciones push cuando la app está en segundo plano o cerrada.
 // Documentación: https://firebase.google.com/docs/cloud-messaging/js/receive
 
-importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging-compat.js");
 
 firebase.initializeApp({
   apiKey: "AIzaSyB2uS7RDsD0tWkR1KR8p5hBV-7mNuEW0ew",

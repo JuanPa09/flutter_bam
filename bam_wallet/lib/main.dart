@@ -8,39 +8,40 @@ import 'package:bam_wallet/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Handler de mensajes en segundo plano — debe ser función top-level.
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Firebase ya está inicializado cuando este handler se invoca.
-  // Aquí puedes mostrar notificaciones locales si lo requieres.
 }
 
-void main() {
-  runProject();
+void main() async {
+  await runProject();
 }
 
-void runProject() async {
+Future<void> runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Registrar handler de notificaciones en segundo plano
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // Configure Firebase Messaging only for mobile platforms
+  if (!kIsWeb) {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  // Configurar presentación de notificaciones en primer plano (iOS/Android)
-  await FirebaseMessaging.instance
-      .setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
 
   await LocalStorage().init();
   await Env.initialize();
-  await ServiceLocator().setup('real'); //options: mock, real
+  await ServiceLocator().setup('real');
 
   runApp(const MyApp());
 }
@@ -59,7 +60,6 @@ class _RouterScope extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Inicializar el router una sola vez
     ref.read(_routerProvider);
 
     final locale = ref.watch(localeProvider);

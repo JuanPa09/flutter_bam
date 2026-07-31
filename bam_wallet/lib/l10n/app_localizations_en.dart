@@ -160,13 +160,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_coming_soon => 'Coming soon';
 
   @override
-  String get error_invalid_credentials_400 => 'Invalid credentials. Please check your username and password.';
+  String get error_invalid_credentials_400 =>
+      'Invalid credentials. Please check your username and password.';
 
   @override
-  String get error_unauthorized_401 => 'Unauthorized. The credentials you provided are invalid.';
+  String get error_unauthorized_401 =>
+      'Unauthorized. The credentials you provided are invalid.';
 
   @override
-  String get error_forbidden_403 => 'Access forbidden. Your account may be suspended.';
+  String get error_forbidden_403 =>
+      'Access forbidden. Your account may be suspended.';
 
   @override
   String get error_user_not_found_404 => 'User not found.';
@@ -178,19 +181,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_server_generic => 'Server error. Please try again later.';
 
   @override
-  String get error_connection_timeout => 'Connection timeout. Please check your internet connection.';
+  String get error_connection_timeout =>
+      'Connection timeout. Please check your internet connection.';
 
   @override
-  String get error_receive_timeout => 'Request timeout. Please check your internet connection.';
+  String get error_receive_timeout =>
+      'Request timeout. Please check your internet connection.';
 
   @override
-  String get error_send_timeout => 'Request timeout. Please check your internet connection.';
+  String get error_send_timeout =>
+      'Request timeout. Please check your internet connection.';
 
   @override
   String get error_request_cancelled => 'Request cancelled.';
 
   @override
-  String get error_network_unknown => 'Network error. Please check your internet connection.';
+  String get error_network_unknown =>
+      'Network error. Please check your internet connection.';
 
   @override
   String get error_unexpected => 'An error occurred. Please try again.';
@@ -203,4 +210,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_language_spanish => 'Spanish';
+
+  @override
+  String get error_firebase_invalid_credentials =>
+      'Invalid email or password. Please try again.';
+
+  @override
+  String get error_firebase_user_not_found =>
+      'No account found with this email.';
+
+  @override
+  String get error_firebase_wrong_password =>
+      'Incorrect password. Please try again.';
 }

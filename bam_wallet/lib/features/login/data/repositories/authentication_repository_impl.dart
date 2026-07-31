@@ -1,17 +1,17 @@
 import 'package:bam_wallet/features/login/data/data_sources/local_authentication_data_source.dart';
-import 'package:bam_wallet/features/login/data/data_sources/remote_authentication_data_source.dart';
+import 'package:bam_wallet/features/login/data/data_sources/login_data_source.dart';
 import 'package:bam_wallet/features/login/data/models/user_password_model.dart';
 import 'package:bam_wallet/features/login/domain/entities/user.dart';
 import 'package:bam_wallet/features/login/domain/repositories/authentication_repository.dart';
 
 class AuthenticationRepositoryImpl extends AuthenticationRepository {
-  final RemoteAuthenticationDataSource _remoteAuthenticationDataSource;
+  final LoginDataSource _loginDataSource;
   final LocalAuthenticationDataSource _localAuthenticationDataSource;
 
   AuthenticationRepositoryImpl({
-    required RemoteAuthenticationDataSource remoteAuthenticationDataSource,
+    required LoginDataSource loginDataSource,
     required LocalAuthenticationDataSource localAuthenticationDataSource,
-  }) : _remoteAuthenticationDataSource = remoteAuthenticationDataSource,
+  }) : _loginDataSource = loginDataSource,
        _localAuthenticationDataSource = localAuthenticationDataSource;
 
   @override
@@ -30,10 +30,9 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     required String username,
     required String password,
   }) async {
-    final userModel = await _remoteAuthenticationDataSource
-        .signInWithUsernameAndPassword(
-          UserPasswordModel(username: username, password: password),
-        );
+    final userModel = await _loginDataSource.loginWithEmailAndPassword(
+      UserPasswordModel(username: username, password: password),
+    );
     await saveSession(userModel.accessToken);
     await _localAuthenticationDataSource.saveUserData(userModel);
     return User(
