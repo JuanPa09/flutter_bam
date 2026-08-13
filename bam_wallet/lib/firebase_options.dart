@@ -25,12 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
       case TargetPlatform.windows:
-        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
+          'DefaultFirebaseOptions have not been configured for this platform - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
@@ -41,49 +39,31 @@ class DefaultFirebaseOptions {
   }
 
   static const String webVapidKey =
-      'BHF4K9usq3IDrt5ibo5gnvMJEc2bq3SM4eqv__gg3FSII9ekJTgqpcpBgu01XKfrInOsAuVR5nJeEHVJumxf2Hg';
+      'BAwgaQfd2s_3Q97IbnVqy1alga1pjfyz3I0zTqf-J-Uw_7TqoPufj9p8a-8Gl5o3Wu-hIQunfykgYaLJDNU7NHU';
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB2uS7RDsD0tWkR1KR8p5hBV-7mNuEW0ew',
-    appId: '1:599905481724:web:f250979bee6e24943f3879',
-    messagingSenderId: '599905481724',
-    projectId: 'bam-wallet-4995c',
-    authDomain: 'bam-wallet-4995c.firebaseapp.com',
-    storageBucket: 'bam-wallet-4995c.firebasestorage.app',
+    apiKey: 'AIzaSyAS9MZsK5zQPQmyKZ6J2h32d3d7ANDFcts',
+    appId: '1:512224138763:web:ba4c63b9009602f7cad90e',
+    messagingSenderId: '512224138763',
+    projectId: 'bam-wallet-eb1e7',
+    authDomain: 'bam-wallet-eb1e7.firebaseapp.com',
+    storageBucket: 'bam-wallet-eb1e7.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCkNCM_oFz_zL_OyDMGyGjmO7AeWgNYjjk',
-    appId: '1:599905481724:android:873b8cafa2a768c73f3879',
-    messagingSenderId: '599905481724',
-    projectId: 'bam-wallet-4995c',
-    storageBucket: 'bam-wallet-4995c.firebasestorage.app',
+    apiKey: 'AIzaSyCeptp_pyOxfpW-v7ogilqWwcal8zP4KG0',
+    appId: '1:512224138763:android:40f98cbcf1efd45ecad90e',
+    messagingSenderId: '512224138763',
+    projectId: 'bam-wallet-eb1e7',
+    storageBucket: 'bam-wallet-eb1e7.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyATXemqbDPk6MPm23gILkEGjSWVyydV0fc',
-    appId: '1:599905481724:ios:c7722e849776fdec3f3879',
-    messagingSenderId: '599905481724',
-    projectId: 'bam-wallet-4995c',
-    storageBucket: 'bam-wallet-4995c.firebasestorage.app',
+    apiKey: 'AIzaSyCwb4GEX3PxBeTOpwSqyptcZlVwVd8o134',
+    appId: '1:512224138763:ios:015474ba9c9d06dacad90e',
+    messagingSenderId: '512224138763',
+    projectId: 'bam-wallet-eb1e7',
+    storageBucket: 'bam-wallet-eb1e7.firebasestorage.app',
     iosBundleId: 'com.example.bamWallet',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyATXemqbDPk6MPm23gILkEGjSWVyydV0fc',
-    appId: '1:599905481724:ios:c7722e849776fdec3f3879',
-    messagingSenderId: '599905481724',
-    projectId: 'bam-wallet-4995c',
-    storageBucket: 'bam-wallet-4995c.firebasestorage.app',
-    iosBundleId: 'com.example.bamWallet',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyB2uS7RDsD0tWkR1KR8p5hBV-7mNuEW0ew',
-    appId: '1:599905481724:web:94ac1f1776cb87433f3879',
-    messagingSenderId: '599905481724',
-    projectId: 'bam-wallet-4995c',
-    authDomain: 'bam-wallet-4995c.firebaseapp.com',
-    storageBucket: 'bam-wallet-4995c.firebasestorage.app',
   );
 }

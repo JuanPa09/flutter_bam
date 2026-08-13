@@ -6,12 +6,12 @@ importScripts("https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"
 importScripts("https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging-compat.js");
 
 firebase.initializeApp({
-  apiKey: "AIzaSyB2uS7RDsD0tWkR1KR8p5hBV-7mNuEW0ew",
-  authDomain: "bam-wallet-4995c.firebaseapp.com",
-  projectId: "bam-wallet-4995c",
-  storageBucket: "bam-wallet-4995c.firebasestorage.app",
-  messagingSenderId: "599905481724",
-  appId: "1:599905481724:web:f250979bee6e24943f3879",
+  apiKey: "AIzaSyAS9MZsK5zQPQmyKZ6J2h32d3d7ANDFcts",
+  authDomain: "bam-wallet-eb1e7.firebaseapp.com",
+  projectId: "bam-wallet-eb1e7",
+  storageBucket: "bam-wallet-eb1e7.firebasestorage.app",
+  messagingSenderId: "512224138763",
+  appId: "1:512224138763:web:ba4c63b9009602f7cad90e",
 });
 
 const messaging = firebase.messaging();
